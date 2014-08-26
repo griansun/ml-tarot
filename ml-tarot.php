@@ -12,6 +12,11 @@ add_shortcode("ml-tarot-dynamicspread", "ml_tarot_dynamicspread_handler");
 
 add_action( 'wp_enqueue_scripts', 'ml_tarot_scripts' );
 
+/*function ml-custom_rewrite_tag() {
+        add_rewrite_tag('%ml_reading%', '([^&]+)');
+    }
+    add_action('init', 'ml-custom_rewrite_tag', 10, 0);*/
+
 function ml_tarot_spread_overview_handler() {
   //run function that actually does the work of the plugin
   $demolph_output = ml_tarot_spread_overview_function();
@@ -23,6 +28,7 @@ function ml_tarot_spread_overview_function() {
   //process plugin
   $demolp_output = "Leggingen: ";
   //send back text to calling function
+
   global $wpdb;
   $result = $wpdb->get_results(
 	"
@@ -48,7 +54,7 @@ function ml_tarot_dynamicspread_handler() {
 
 function ml_tarot_dynamicspread_function() {
   //process plugin
-  $demolp_output = "Dynamische legging: " .$_GET["id"];
+  $demolp_output = "Dynamische legging: " .$_GET["ml_reading"];
   //send back text to calling function
   /*global $wpdb;
   $result = $wpdb->get_results(

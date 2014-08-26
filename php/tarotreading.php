@@ -16,35 +16,18 @@
 header("content-type:application/json");
 
 $spreadid = $_POST['spreadid'];
-$pg1 = $spreadid;
-/*$pg1 = array(
-       array
+$datetime = date("Y-m-d H:i:s");
+
+$readingdata = '0785f0866571844290985b34b342e1be3a293031270263282144260814081918';
+
+$pg1 = array(
+       'cardids' => array
        (
-            'spreadid' => $spreadid,
-            'profile_pic' => 'img/default-avatar.png'
+            1,5,7
        ),
-       array
-       (
-            'username' => 'doggy_bag',
-            'profile_pic' => 'img/default-avatar.png'
-       ),
-       array
-       (
-            'username' => 'goingoutside',
-            'profile_pic' => 'img/default-avatar.png'
-       ),
-       array
-       (
-            'username' => 'redditdigg',
-            'profile_pic' => 'img/default-avatar.png'
-       ),
-       array
-       (
-            'username' => 'lots_of_pudding',
-            'profile_pic' => 'img/default-avatar.png'
-       ),
-       'nextpage' => '#pg2'
-);*/
+       'spreadid' => $spreadid,
+       'readingdata' => $readingdata
+);
 
 echo json_encode($pg1);
 
