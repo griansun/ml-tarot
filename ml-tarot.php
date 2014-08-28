@@ -113,8 +113,9 @@ function ml_tarot_dynamicspread_function() {
       $mlSpreadPositions = $wpdb->get_results("SELECT * FROM tarotspreadposition WHERE tarotspread = $tarotSpreadId order by positionnumber" );
 
       for($i=0; $i<count($mlSpreadPositions); $i++) {
-        $mlSpreadPositions[$i] = $mlSpreadPositions[$i]->description;
-        $demolp_output = $demolp_output ."position: " . $mlSpreadPositions[$i] ."<br />";
+        $mlSpreadPositionObj = (object) array('description' => $mlSpreadPositions[$i]->description, 'name' => $mlSpreadPositions[$i]->positionname);
+        $mlSpreadPositions[$i] = $mlSpreadPositionObj;
+        $demolp_output = $demolp_output ."position: " . $mlSpreadPositions[$i]->name ."<br />";
     }
 
      
