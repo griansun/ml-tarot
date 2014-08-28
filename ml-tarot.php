@@ -75,6 +75,8 @@ function ml_tarot_dynamicspread_function() {
       $tarotDeckId = 0;
       $tarotSpreadId = 0;
       $tarotCardNumbers = array();
+      $mlSpreadName;
+      $mlSpreadPositions = array();
 
       $readingguid = substr($tempReadingString, constant("LENGTHTOTALCARDSSTRING"), constant("LENGTHGUIDSTRING"));
       $tarotDeckId = substr($tempReadingString, constant("LENGTHTOTALCARDSSTRING") + constant("LENGTHGUIDSTRING"), constant("LENGTHTAROTDECKIDSTRING"));
@@ -96,27 +98,28 @@ function ml_tarot_dynamicspread_function() {
 
       $cardscount = count($tarotCardNumbers);
       for ($i=0; $i<$cardscount; $i++) {
-        $demolp_output = $demolp_output ."<br />  cardnumber: " .$tarotCardNumbers[$i] ."<br />";
+        $demolp_output = $demolp_output ."  cardnumber: " .$tarotCardNumbers[$i] ."<br />";
+      }
+
+      // get spread data
+      global $wpdb;
+      
+
+
+      $mlSpread = $wpdb->get_row($wpdb->prepare("SELECT * FROM tarotspread WHERE id = '%d';", $tarotSpreadId));
+      $mlSpreadName = $mlSpread->name;
+      $demolp_output = $demolp_output ."<br />  spreadname: " .$mlSpreadName ."<br />";
+
+      $mlSpreadPositions = $wpdb->get_results("SELECT * FROM tarotspreadposition WHERE tarotspread = $tarotSpreadId order by positionnumber" );
+
+      for($i=0; $i<count($mlSpreadPositions); $i++) {
+        $mlSpreadPositions[$i] = $mlSpreadPositions[$i]->description;
+        $demolp_output = $demolp_output ."position: " . $mlSpreadPositions[$i] ."<br />";
     }
 
-      
+     
   }
 
-  //send back text to calling function
-  /*global $wpdb;
-  $result = $wpdb->get_results(
-	"
-	SELECT * FROM tarotspread
-	"
-    );
-
-    $demolp_output = '<ul>';
-    foreach( $result as $results ) {
-
-        $demolp_output = $demolp_output . '<li>' . $results->name .'</li>';
-    }
-    $demolp_output = $demolp_output . '</ul>';
-    */
     return $demolp_output;
 }
 
