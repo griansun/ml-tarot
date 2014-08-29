@@ -74,7 +74,7 @@ function ml_tarot_dynamicspread_function() {
       $readingguid;
       $tarotDeckId = 0;
       $tarotSpreadId = 0;
-      $tarotCardNumbers = array();
+      $mltarotCardNumbers = array();
       $mlSpreadName;
       $mlSpreadPositions = array();
 
@@ -88,7 +88,7 @@ function ml_tarot_dynamicspread_function() {
           $cardNumber = 0;
           $cardNumber = (int)substr($tempReadingString, $startIndexCardIds + $i * constant("LENGTHCARDIDSTRING"), constant("LENGTHCARDIDSTRING"));         
 
-          $tarotCardNumbers[$i] = $cardNumber;
+          $mltarotCardNumbers[$i] = $cardNumber;
       }
 
       $demolp_output = $demolp_output ."<br />reading guid: " .$readingguid ."<br />";
@@ -98,13 +98,11 @@ function ml_tarot_dynamicspread_function() {
 
       $cardscount = count($tarotCardNumbers);
       for ($i=0; $i<$cardscount; $i++) {
-        $demolp_output = $demolp_output ."  cardnumber: " .$tarotCardNumbers[$i] ."<br />";
+        $demolp_output = $demolp_output ."  cardnumber: " .$mltarotCardNumbers[$i] ."<br />";
       }
 
       // get spread data
       global $wpdb;
-      
-
 
       $mlSpread = $wpdb->get_row($wpdb->prepare("SELECT * FROM tarotspread WHERE id = '%d';", $tarotSpreadId));
       $mlSpreadName = $mlSpread->name;
@@ -112,13 +110,22 @@ function ml_tarot_dynamicspread_function() {
 
       $mlSpreadPositions = $wpdb->get_results("SELECT * FROM tarotspreadposition WHERE tarotspread = $tarotSpreadId order by positionnumber" );
 
+      $demolp_output = $demolp_output ."<ul>";
       for($i=0; $i<count($mlSpreadPositions); $i++) {
-        $mlSpreadPositionObj = (object) array('description' => $mlSpreadPositions[$i]->description, 'name' => $mlSpreadPositions[$i]->positionname);
+        $mlCardRow = $wpdb->get_row($wpdb->prepare("SELECT tarotcard.id as tarotcardid, tarotcard.name, tarotcard.interpretationsummary, tarotcarddeck.image FROM tarotcard INNER JOIN tarotcarddeck ON tarotcard.id = tarotcarddeck.tarotcard WHERE tarotdeck = '%d' AND tarotcard.id = '%d';", $tarotDeckId, $mltarotCardNumbers[$i]));
+        $mlCardObj = (object) array('CardName' => $mlCardRow->name, 'CardInterpretationSummary' => $mlCardRow->interpretationsummary, 'id' => $mlCardRow->id);
+
+        $mlSpreadPositionObj = (object) array('SpreadPositionDescription' => $mlSpreadPositions[$i]->description, 
+                                                'SpreadPositionName' => $mlSpreadPositions[$i]->positionname,
+                                                'CardName' => $mlCardRow->name,
+                                                'CardInterpretationSummary' => $mlCardRow->interpretationsummary,
+                                                'CardId' => $mlCardRow->id );
         $mlSpreadPositions[$i] = $mlSpreadPositionObj;
-        $demolp_output = $demolp_output ."position: " . $mlSpreadPositions[$i]->name ."<br />";
+        $demolp_output = $demolp_output ."<li>position: " . $mlSpreadPositions[$i]->SpreadPositionName . ", card: " .$mlSpreadPositions[$i]->CardName . ", interpretation: " . $mlSpreadPositions[$i]->CardInterpretationSummary ."</li>";
+      
     }
 
-     
+    $demolp_output = $demolp_output ."</ul>";
   }
 
     return $demolp_output;
