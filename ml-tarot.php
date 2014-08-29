@@ -63,6 +63,7 @@ function ml_tarot_dynamicspread_function() {
   define("LENGTHTAROTSPREADIDSTRING", 2);
   define("LENGTHCARDIDSTRING", 2);
   define("LENGTHDATETIME", 12);
+  define("DECKIMAGESBASEFOLDER", 'images/decks');
     
   $totalLengthString = constant("LENGTHGUIDSTRING") + constant("LENGTHTOTALCARDSSTRING") + constant("LENGTHTAROTSPREADIDSTRING") + constant("LENGTHTAROTDECKIDSTRING") + ($totalCards * constant("LENGTHCARDIDSTRING")) + constant("LENGTHDATETIME");
 
@@ -77,6 +78,7 @@ function ml_tarot_dynamicspread_function() {
       $mltarotCardNumbers = array();
       $mlSpreadName;
       $mlSpreadPositions = array();
+      $mlDeckImagesFolder = 'tarotofdreams'; //todo: uit database halen
 
       $readingguid = substr($tempReadingString, constant("LENGTHTOTALCARDSSTRING"), constant("LENGTHGUIDSTRING"));
       $tarotDeckId = substr($tempReadingString, constant("LENGTHTOTALCARDSSTRING") + constant("LENGTHGUIDSTRING"), constant("LENGTHTAROTDECKIDSTRING"));
@@ -113,15 +115,18 @@ function ml_tarot_dynamicspread_function() {
       $demolp_output = $demolp_output ."<ul>";
       for($i=0; $i<count($mlSpreadPositions); $i++) {
         $mlCardRow = $wpdb->get_row($wpdb->prepare("SELECT tarotcard.id as tarotcardid, tarotcard.name, tarotcard.interpretationsummary, tarotcarddeck.image FROM tarotcard INNER JOIN tarotcarddeck ON tarotcard.id = tarotcarddeck.tarotcard WHERE tarotdeck = '%d' AND tarotcard.id = '%d';", $tarotDeckId, $mltarotCardNumbers[$i]));
-        $mlCardObj = (object) array('CardName' => $mlCardRow->name, 'CardInterpretationSummary' => $mlCardRow->interpretationsummary, 'id' => $mlCardRow->id);
-
+        
         $mlSpreadPositionObj = (object) array('SpreadPositionDescription' => $mlSpreadPositions[$i]->description, 
                                                 'SpreadPositionName' => $mlSpreadPositions[$i]->positionname,
                                                 'CardName' => $mlCardRow->name,
                                                 'CardInterpretationSummary' => $mlCardRow->interpretationsummary,
-                                                'CardId' => $mlCardRow->id );
+                                                'CardId' => $mlCardRow->id,
+                                                'CardImage' => $mlCardRow->image,
+                                                'CardImagePath' => plugins_url( 'images/decks/' .$mlDeckImagesFolder . '/' .$mlCardRow->image , __FILE__ ) );
+
         $mlSpreadPositions[$i] = $mlSpreadPositionObj;
-        $demolp_output = $demolp_output ."<li>position: " . $mlSpreadPositions[$i]->SpreadPositionName . ", card: " .$mlSpreadPositions[$i]->CardName . ", interpretation: " . $mlSpreadPositions[$i]->CardInterpretationSummary ."</li>";
+        $demolp_output = $demolp_output ."<li>position: " . $mlSpreadPositions[$i]->SpreadPositionName . ", card: " .$mlSpreadPositions[$i]->CardName . 
+                            ", <br />interpretation: " . $mlSpreadPositions[$i]->CardInterpretationSummary . ", <img src='" .$mlSpreadPositions[$i]->CardImagePath ."' width='100px' /></li>";
       
     }
 
