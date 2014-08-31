@@ -138,6 +138,7 @@ function ml_tarot_dynamicspread_function() {
 
 function ml_tarot_scripts()
 {
+    wp_enqueue_style( 'style-name', plugins_url( '/css/tarot.css', __FILE__ ) );
     // Register the script like this for a plugin:
     wp_register_script( 'ml-tarot-script', plugins_url( '/js/tarotreading.js', __FILE__ ), array( 'jquery' )  );
  
