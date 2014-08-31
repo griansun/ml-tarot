@@ -108,16 +108,18 @@ function ml_tarot_dynamicspread_function() {
 
       $mlSpread = $wpdb->get_row($wpdb->prepare("SELECT * FROM tarotspread WHERE id = '%d';", $tarotSpreadId));
       $mlSpreadName = $mlSpread->name;
+      $mlSpreadId = $mlSpread->id;
       $demolp_output = $demolp_output ."<br />  spreadname: " .$mlSpreadName ."<br />";
 
-      $mlSpreadPositions = $wpdb->get_results("SELECT * FROM tarotspreadposition WHERE tarotspread = $tarotSpreadId order by positionnumber" );
+      $mlSpreadPositionsData = $wpdb->get_results("SELECT * FROM tarotspreadposition WHERE tarotspread = $tarotSpreadId order by positionnumber" );
 
-      $demolp_output = $demolp_output ."<ul>";
-      for($i=0; $i<count($mlSpreadPositions); $i++) {
+      //$demolp_output = $demolp_output ."<ul>";
+      for($i=0; $i<count($mlSpreadPositionsData); $i++) {
         $mlCardRow = $wpdb->get_row($wpdb->prepare("SELECT tarotcard.id as tarotcardid, tarotcard.name, tarotcard.interpretationsummary, tarotcarddeck.image FROM tarotcard INNER JOIN tarotcarddeck ON tarotcard.id = tarotcarddeck.tarotcard WHERE tarotdeck = '%d' AND tarotcard.id = '%d';", $tarotDeckId, $mltarotCardNumbers[$i]));
         
-        $mlSpreadPositionObj = (object) array('SpreadPositionDescription' => $mlSpreadPositions[$i]->description, 
-                                                'SpreadPositionName' => $mlSpreadPositions[$i]->positionname,
+        $mlSpreadPositionObj = (object) array('SpreadPositionDescription' => $mlSpreadPositionsData[$i]->description, 
+                                                'SpreadPositionName' => $mlSpreadPositionsData[$i]->positionname,
+                                                'SpreadPositionNumber' => $mlSpreadPositionsData[$i]->positionnumber,
                                                 'CardName' => $mlCardRow->name,
                                                 'CardInterpretationSummary' => $mlCardRow->interpretationsummary,
                                                 'CardId' => $mlCardRow->id,
@@ -125,12 +127,23 @@ function ml_tarot_dynamicspread_function() {
                                                 'CardImagePath' => plugins_url( 'images/decks/' .$mlDeckImagesFolder . '/' .$mlCardRow->image , __FILE__ ) );
 
         $mlSpreadPositions[$i] = $mlSpreadPositionObj;
-        $demolp_output = $demolp_output ."<li>position: " . $mlSpreadPositions[$i]->SpreadPositionName . ", card: " .$mlSpreadPositions[$i]->CardName . 
+        /*$demolp_output = $demolp_output ."<li>position: " . $mlSpreadPositions[$i]->SpreadPositionName . ", card: " .$mlSpreadPositions[$i]->CardName . 
                             ", <br />interpretation: " . $mlSpreadPositions[$i]->CardInterpretationSummary . ", <img src='" .$mlSpreadPositions[$i]->CardImagePath ."' width='100px' /></li>";
-      
+      */
     }
 
-    $demolp_output = $demolp_output ."</ul>";
+    //render container div
+    $demolp_output = $demolp_output .'<div class="spread" id="spread' .$mlSpreadId .'">';
+
+    // render card images
+    for($i=0; $i<count($mlSpreadPositions); $i++) {
+        $demolp_output = $demolp_output .'<div class="position" id="position' .$mlSpreadPositions[$i]->SpreadPositionNumber .'">';
+        $demolp_output = $demolp_output .'<img src="' .$mlSpreadPositions[$i]->CardImagePath .'" />';
+        $demolp_output = $demolp_output ."</div>";
+    }
+
+    $demolp_output = $demolp_output .'<div style="clear:both" /> </div>'; // end rendering container div
+    //$demolp_output = $demolp_output ."</ul>";
   }
 
     return $demolp_output;
