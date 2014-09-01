@@ -11,6 +11,10 @@
         width: 100px;
     }
 
+.interpretation{
+    margin-bottom: 20px;
+}
+
 /* begin relatiespel */
 #spread30 { height:  600px; width: 325px;}
     #spread30 #position1 { 

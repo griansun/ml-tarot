@@ -121,6 +121,7 @@ function ml_tarot_dynamicspread_function() {
         $mlSpreadPositionObj = (object) array('SpreadPositionDescription' => $mlSpreadPositionsData[$i]->description, 
                                                 'SpreadPositionName' => $mlSpreadPositionsData[$i]->positionname,
                                                 'SpreadPositionNumber' => $mlSpreadPositionsData[$i]->positionnumber,
+                                                'SpreadPositionDescription' => $mlSpreadPositionsData[$i]->description,
                                                 'CardName' => $mlCardRow->name,
                                                 'CardInterpretationSummary' => $mlCardRow->interpretationsummary,
                                                 'CardId' => $mlCardRow->id,
@@ -148,7 +149,22 @@ function ml_tarot_dynamicspread_function() {
         $demolp_output = $demolp_output ."</div>";
     }
 
-    $demolp_output = $demolp_output .'</div>'; // end rendering container div
+    $demolp_output = $demolp_output .'</div>'; // end rendering container div cardimages
+
+     // render interpretations
+    $demolp_output = $demolp_output .'<div class="interpretations">';
+
+    // render positions
+    for($i=0; $i<count($mlSpreadPositions); $i++) {
+        $demolp_output = $demolp_output .'<div class="interpretation" id="interpretation' .$mlSpreadPositions[$i]->SpreadPositionNumber .'">';
+        //$demolp_output = $demolp_output .'<img src="' .$mlSpreadPositions[$i]->CardImagePath .'" />';
+        $demolp_output = $demolp_output .'<h4>Positie '.$mlSpreadPositions[$i]->SpreadPositionNumber . ': <strong>'  .$mlSpreadPositions[$i]->CardName .'</strong></h4>';
+        $demolp_output = $demolp_output .'<p><strong>Betekenis positie:</strong> '.$mlSpreadPositions[$i]->SpreadPositionDescription   .'</p>';
+        $demolp_output = $demolp_output .'<p><strong>Betekenis kaart</strong>: '.$mlSpreadPositions[$i]->CardInterpretationSummary   .'</p>';
+        $demolp_output = $demolp_output .'</div>'; // end interpretation div
+    }
+
+    $demolp_output = $demolp_output .'</div>'; // end rendering container div interpretation
 
     //$demolp_output = $demolp_output ."</ul>";
   }
