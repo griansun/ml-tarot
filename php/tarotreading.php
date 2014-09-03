@@ -15,10 +15,21 @@
 
 header("content-type:application/json");
 
-$spreadid = $_POST['spreadid'];
+$mlSpreadid = $_POST['spreadid'];
 $datetime = date("Y-m-d H:i:s");
 
-$readingdata = '0785f0866571844290985b34b342e1be3a293031270263282144260814081918';
+
+       // return string.Format("r={0:00}{1}{2:00}{3:00}{4}{5:" + urlDateFormat + "}", totalCards, reading.Guid.ToString().Replace("-", ""), reading.TarotDeckId, reading.TarotSpreadId, tarotCardIds, DateTime.Now
+global $wpdb;
+//$mlSpreadRow = 
+$wpdb->get_row($wpdb->prepare("SELECT * FROM tarotspread WHERE id = 4"));
+$mlSpreadTotalCards = $mlSpreadRow->totalcards;
+$mlReadingGuid = trim(com_create_guid(), '{}');
+$mlReadingGuid = str_replace('-','',$mlReadingGuid)
+$mlDeckId;
+$mlCardIdList;
+
+$readingdata = $mlSpreadid; //'skdjflksdjfld'; //sprintf("%02s", $mlSpreadTotalCards) . $mlReadingGuid .$mlSpreadid .'31270263282144260814081918';
 
 $pg1 = array(
        'cardids' => array

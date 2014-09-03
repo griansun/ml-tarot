@@ -11,6 +11,39 @@ add_shortcode("ml-tarot-spread-overview", "ml_tarot_spread_overview_handler");
 add_shortcode("ml-tarot-dynamicspread", "ml_tarot_dynamicspread_handler");
 
 add_action( 'wp_enqueue_scripts', 'ml_tarot_scripts' );
+add_action( 'wp_ajax_my_action', 'my_action_callback' );
+
+function my_action_callback() {
+	global $wpdb; // this is how you get access to the database
+
+    $mlSpreadid = $_POST['spreadid'];
+    $mlSpreadRow = $wpdb->get_row($wpdb->prepare("SELECT * FROM tarotspread WHERE id = '%d';", $mlSpreadid));
+
+	$mlSpreadTotalCards = $mlSpreadRow->totalcards;
+    $mlReadingGuid = mlNewGuid();
+
+    // get random cards
+    $mlAllCardIds = range(1, 78);
+    shuffle($mlAllCardIds);
+    $mlRandomCards = array_slice($mlAllCardIds, 0, (int)$mlSpreadTotalCards);
+    $mlDeckId = '29'; // TODO
+    $mlCardIdList = '';
+
+    foreach($mlRandomCards as $mlCardId )
+    {
+        $mlCardIdList .= sprintf("%02s", $mlCardId);
+    }
+
+    $readingdata = sprintf("%02s", $mlSpreadTotalCards) . $mlReadingGuid .sprintf("%02s", $mlDeckId) .sprintf("%02s", $mlSpreadid) .$mlCardIdList .'260814081918';
+
+    $pg1 = array(
+       'readingdata' => $readingdata
+    );
+
+    echo json_encode($pg1);	
+
+	die(); // this is required to return a proper result
+}
 
 function ml_tarot_spread_overview_handler() {
   //run function that actually does the work of the plugin
@@ -33,8 +66,8 @@ function ml_tarot_spread_overview_function() {
 
     $demolp_output = '<ul>';
     foreach( $result as $results ) {
-
-        $demolp_output = $demolp_output . '<li><a href="#" class="spreadlink">' . $results->name .'</a></li>';
+        
+        $demolp_output = $demolp_output . '<li><a href="#" id="spreadlink-' .$results->id .'" class="spreadlink">' . $results->name .'</a></li>';
     }
     $demolp_output = $demolp_output . '</ul>';
     return $demolp_output;
@@ -53,11 +86,12 @@ function ml_tarot_dynamicspread_function() {
   $readingstring = $_GET["ml_reading"];
   $totalCards = (int)substr($readingstring, 0, 2);
 
+  $demolp_output = '';
   //$demolp_output = $demolp_output ."<br />totalcards: " .$totalCards ."<br />";
 
   // calculate length temp
-  define("LENGTHGUIDSTRING", 32);
   define("LENGTHTOTALCARDSSTRING", 2);
+  define("LENGTHGUIDSTRING", 32);
   define("LENGTHTAROTDECKIDSTRING", 2);
   define("LENGTHTAROTSPREADIDSTRING", 2);
   define("LENGTHCARDIDSTRING", 2);
@@ -68,9 +102,11 @@ function ml_tarot_dynamicspread_function() {
 
   //$demolp_output = $demolp_output ."<br />total length: " .$totalLengthString ."<br />";
 
+  // TODO: show datetime
+
   $tempReadingString = $readingstring;
 
-  if (strlen($tempReadingString) == $totalLengthString )   {
+  if (strlen($tempReadingString) == $totalLengthString)   {
       $readingguid;
       $tarotDeckId = 0;
       $tarotSpreadId = 0;
@@ -92,12 +128,12 @@ function ml_tarot_dynamicspread_function() {
           $mltarotCardNumbers[$i] = $cardNumber;
       }
 
+      //$mlCardsString = implode(",", $mltarotCardNumbers);
       //$demolp_output = $demolp_output ."<br />reading guid: " .$readingguid ."<br />";
       //$demolp_output = $demolp_output ."tarotdeck id: " .$tarotDeckId ."<br />";
       //$demolp_output = $demolp_output ."tarotspread id: " .$tarotSpreadId ."<br />";
-      //$demolp_output = $demolp_output ."startindex cardid's: " .$startIndexCardIds ."<br />";
+      //$demolp_output = $demolp_output ."cardnumbers: " .$mlCardsString ."<br />";
 
-      $cardscount = count($tarotCardNumbers);
       /*for ($i=0; $i<$cardscount; $i++) {
         $demolp_output = $demolp_output ."  cardnumber: " .$mltarotCardNumbers[$i] ."<br />";
       }*/
@@ -180,5 +216,20 @@ function ml_tarot_scripts()
  
     // For either a plugin or a theme, you can then enqueue the script:
     wp_enqueue_script( 'ml-tarot-script' );
+
+    wp_localize_script( 'ml-tarot-script', 'ajax_object',
+            array( 'ajax_url' => admin_url( 'admin-ajax.php' ), 'we_value' => 1234 ) );
+}
+
+// Generate Guid 
+function mlNewGuid() { 
+    $s = strtoupper(md5(uniqid(rand(),true))); 
+    $mlguidText = 
+        substr($s,0,8) . 
+        substr($s,8,4) . 
+        substr($s,12,4) . 
+        substr($s,16,4) . 
+        substr($s,20); 
+    return $mlguidText;
 }
 ?>
