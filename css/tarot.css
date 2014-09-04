@@ -1,7 +1,14 @@
-#spreadoverview .spreadimage {
-    max-height: 150px;
-    max-width:  200px;
+#spreadoverview {
+    list-style:  none;
 }
+    #spreadoverview .spreadimage {
+        max-height: 150px;
+        max-width:  200px;
+    }
+
+    #spreadoverview .spreadpanel {
+        padding: 10px 0;
+    }
 
 .spread {
     margin-left:  auto;

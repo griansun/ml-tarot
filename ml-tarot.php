@@ -66,7 +66,7 @@ function ml_tarot_spread_overview_function() {
     foreach( $mlSpreadsData as $mlSpreadData ) {
         
         $demolp_output = $demolp_output . '<li>
-        <div>
+        <div class="spreadpanel">
             <img src="' .plugins_url( 'images/legpatronen/' .$mlSpreadData->image , __FILE__ ) .'" class="spreadimage" />
             <a href="#" id="spreadlink-' .$mlSpreadData->id .'" class="spreadlink">' . $mlSpreadData->name .'</a>
         </div>
