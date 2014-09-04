@@ -1,13 +1,24 @@
 #spreadoverview {
     list-style:  none;
 }
+    #spreadoverview .spreadimagepanel {
+        width:  220px;
+        float: left;
+    }
     #spreadoverview .spreadimage {
         max-height: 150px;
         max-width:  200px;
     }
 
     #spreadoverview .spreadpanel {
-        padding: 10px 0;
+        padding: 10px;
+        margin: 10px;
+        clear: both;
+        border:  1px solid #00c8d7;
+        -webkit-border-radius: 15px;
+        -moz-border-radius: 15px;
+        border-radius: 15px;
+        overflow: hidden;
     }
 
 .spread {

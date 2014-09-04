@@ -1,8 +1,8 @@
 jQuery(function () {
-    jQuery('.spreadlink').on('click', function (e) {
+    jQuery('.spreadpanel').on('click', function (e) {
         e.preventDefault();
         var linkId = jQuery(this).attr("id");
-        var spreadId = linkId.replace("spreadlink-", "");
+        var spreadId = linkId.replace("spreadpanel-", "");
 
         var data = {
             'action': 'ml_generatereading',
@@ -12,23 +12,7 @@ jQuery(function () {
 
         jQuery.post(ajax_object.ajax_url, data, function (response) {
             var obj = jQuery.parseJSON(response);
-            //console.log(obj.totalcards);
-            document.location.href = '/tarot/legging?ml_reading=' + obj.readingdata;//alert('Got this from the server: ' + response);
+            document.location.href = '/tarot/legging?ml_reading=' + obj.readingdata;
         });
-
-        /*jQuery.post({
-        url: '/wp-content/plugins/ml-tarot/php/tarotreading.php',
-        type: 'post',
-        data: { 'action': 'follow', 'spreadid': spreadId },
-        success: function (data, status) {
-        document.location.href = '/tarot/legging?ml_reading=' + data.readingdata;
-        },
-        error: function (xhr, desc, err) {
-        alert("error");
-        console.log(xhr);
-        console.log("Details: " + desc + "\nError:" + err);
-        }
-        });*/
-        // end ajax call
     });
 });        // end function
