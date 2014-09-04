@@ -5,7 +5,7 @@ jQuery(function () {
         var spreadId = linkId.replace("spreadlink-", "");
 
         var data = {
-            'action': 'my_action',
+            'action': 'ml_generatereading',
             'spreadid': spreadId,
             'whatever': ajax_object.we_value      // We pass php values differently!
         }
