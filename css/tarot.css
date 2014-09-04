@@ -1,3 +1,8 @@
+#spreadoverview .spreadimage {
+    max-height: 150px;
+    max-width:  200px;
+}
+
 .spread {
     margin-left:  auto;
     margin-right:  auto;

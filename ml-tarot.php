@@ -60,16 +60,17 @@ function ml_tarot_spread_overview_function() {
   //send back text to calling function
 
   global $wpdb;
-  $result = $wpdb->get_results(
-	"
-	SELECT * FROM tarotspread
-	"
-    );
+  $mlSpreadsData = $wpdb->get_results("SELECT * FROM tarotspread ORDER BY visitorcount DESC LIMIT 15");
 
-    $demolp_output = '<ul>';
-    foreach( $result as $results ) {
+    $demolp_output = '<ul id="spreadoverview">';
+    foreach( $mlSpreadsData as $mlSpreadData ) {
         
-        $demolp_output = $demolp_output . '<li><a href="#" id="spreadlink-' .$results->id .'" class="spreadlink">' . $results->name .'</a></li>';
+        $demolp_output = $demolp_output . '<li>
+        <div>
+            <img src="' .plugins_url( 'images/legpatronen/' .$mlSpreadData->image , __FILE__ ) .'" class="spreadimage" />
+            <a href="#" id="spreadlink-' .$mlSpreadData->id .'" class="spreadlink">' . $mlSpreadData->name .'</a>
+        </div>
+        </li>';
     }
     $demolp_output = $demolp_output . '</ul>';
     return $demolp_output;
