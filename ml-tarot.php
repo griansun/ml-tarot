@@ -12,6 +12,7 @@ add_shortcode("ml-tarot-dynamicspread", "ml_tarot_dynamicspread_handler");
 
 add_action( 'wp_enqueue_scripts', 'ml_tarot_scripts' );
 add_action( 'wp_ajax_ml_generatereading', 'ml_generatereading_callback' );
+add_action( 'wp_ajax_nopriv_ml_generatereading', 'ml_generatereading_callback' );
 
 function ml_generatereading_callback() {
 	global $wpdb; // this is how you get access to the database
