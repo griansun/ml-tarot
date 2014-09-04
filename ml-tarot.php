@@ -21,12 +21,13 @@ function my_action_callback() {
 
 	$mlSpreadTotalCards = $mlSpreadRow->totalcards;
     $mlReadingGuid = mlNewGuid();
+    $mlDeckId = '29'; // TODO
 
     // get random cards
     $mlAllCardIds = range(1, 78);
     shuffle($mlAllCardIds);
     $mlRandomCards = array_slice($mlAllCardIds, 0, (int)$mlSpreadTotalCards);
-    $mlDeckId = '29'; // TODO
+    
     $mlCardIdList = '';
 
     foreach($mlRandomCards as $mlCardId )
@@ -174,6 +175,10 @@ function ml_tarot_dynamicspread_function() {
     $demolp_output = $demolp_output .'<h3>' .$mlSpreadName .'</h3>';
     $demolp_output = $demolp_output .'<p>' .$mlSpreadSummary .'</p>';
     $demolp_output = $demolp_output .'<p>Geeft antwoord op de vraag <strong>' .$mlSpreadQuestion .'</strong></p>';
+
+    if ($tarotDeckId == 29) {
+        $demolp_output .= '<div>Liever een ander deck? <a href="#" id="switchdeck-7">Switch naar Rider Waite</a></div>';
+    }
 
     $demolp_output = $demolp_output .'<div class="spread" id="spread' .$mlSpreadId .'">';
 
