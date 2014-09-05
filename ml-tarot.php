@@ -9,6 +9,7 @@ Author: Ariska Keldermann
 //tell wordpress to register the demolistposts shortcode
 add_shortcode("ml-tarot-spread-overview", "ml_tarot_spread_overview_handler");
 add_shortcode("ml-tarot-dynamicspread", "ml_tarot_dynamicspread_handler");
+add_shortcode("ml-tarot-cards-overview", "ml_tarot_cards_overview_handler");
 
 add_action( 'wp_enqueue_scripts', 'ml_tarot_scripts' );
 add_action( 'wp_ajax_ml_generatereading', 'ml_generatereading_callback' );
@@ -222,6 +223,23 @@ function ml_tarot_dynamicspread_function() {
   }
 
     return $demolp_output;
+}
+
+function ml_tarot_cards_overview_handler() {
+    $mltarot_output = '';
+
+    $mltarot_output .= '<h3>Grote Arcana</h3>';
+    $mltarot_output .=  '<ul>';
+
+    global $wpdb;
+    // get cards 'grote arcana'
+    $mlCardsData = $wpdb->get_results("SELECT * FROM tarotcard WHERE tarotelement = 1 ORDER BY sortorder" );
+    for($i=0; $i<count($mlCardsData); $i++) {
+        $mltarot_output .=  '<li><a href="' .'#' .'">' .$mlCardsData[$i]->romannumber .' ' .$mlCardsData[$i]->name .'</a></li>';
+    }
+
+    $mltarot_output .=  '</ul>';
+    return $mltarot_output; 
 }
 
 function ml_tarot_scripts()
