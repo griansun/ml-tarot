@@ -122,6 +122,7 @@ function ml_tarot_dynamicspread_function() {
 
       $readingguid = substr($tempReadingString, constant("LENGTHTOTALCARDSSTRING"), constant("LENGTHGUIDSTRING"));
       $tarotDeckId = substr($tempReadingString, constant("LENGTHTOTALCARDSSTRING") + constant("LENGTHGUIDSTRING"), constant("LENGTHTAROTDECKIDSTRING"));
+      $tarotDeckId = absint($tarotDeckId);
       $tarotSpreadId = substr($tempReadingString, constant("LENGTHTOTALCARDSSTRING") + constant("LENGTHGUIDSTRING") + constant("LENGTHTAROTDECKIDSTRING"), constant("LENGTHTAROTSPREADIDSTRING"));
 
       $startIndexCardIds = constant("LENGTHTOTALCARDSSTRING") + constant("LENGTHGUIDSTRING") + constant("LENGTHTAROTDECKIDSTRING") + constant("LENGTHTAROTSPREADIDSTRING");
@@ -185,9 +186,9 @@ function ml_tarot_dynamicspread_function() {
     $demolp_output = $demolp_output .'<p>' .$mlSpreadSummary .'</p>';
     $demolp_output = $demolp_output .'<p>Geeft antwoord op de vraag <strong>' .$mlSpreadQuestion .'</strong></p>';
 
-    //if ($tarotDeckId == 29) {
+    if ($tarotDeckId == 29 and false) {
         $demolp_output .= '<div>Liever een ander deck? <a href="#" id="switchdeck-7">Switch naar Rider Waite</a></div>';
-    //}
+    }
 
     $demolp_output = $demolp_output .'<div class="spread" id="spread' .$mlSpreadId .'">';
 
