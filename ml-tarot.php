@@ -71,6 +71,7 @@ function ml_tarot_spread_overview_function() {
                 <img src="' .plugins_url( 'images/legpatronen/' .$mlSpreadData->image , __FILE__ ) .'" class="spreadimage" />
             </div>
             <h4>' . $mlSpreadData->name .'</h4>
+            <p>Geeft antwoord op de vraag: <strong>' .$mlSpreadData->question .'</strong></p>
         </div>
         </li>';
     }
