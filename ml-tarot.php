@@ -160,7 +160,7 @@ function ml_tarot_dynamicspread_function() {
 
       //$demolp_output = $demolp_output ."<ul>";
       for($i=0; $i<count($mlSpreadPositionsData); $i++) {
-        $mlCardRow = $wpdb->get_row($wpdb->prepare("SELECT tarotcard.id as tarotcardid, tarotcard.name, tarotcard.interpretationsummary, tarotcarddeck.image FROM tarotcard INNER JOIN tarotcarddeck ON tarotcard.id = tarotcarddeck.tarotcard WHERE tarotdeck = '%d' AND tarotcard.id = '%d';", $tarotDeckId, $mltarotCardNumbers[$i]));
+        $mlCardRow = $wpdb->get_row($wpdb->prepare("SELECT ml_tarotcard.id as tarotcardid, ml_tarotcard.name, ml_tarotcard.interpretationsummary, tarotcarddeck.image FROM ml_tarotcard INNER JOIN tarotcarddeck ON ml_tarotcard.id = tarotcarddeck.tarotcard WHERE tarotdeck = '%d' AND ml_tarotcard.id = '%d';", $tarotDeckId, $mltarotCardNumbers[$i]));
         $mlCardId = -1;
         if(isset($mlCardRow->id))
         {
@@ -233,7 +233,7 @@ function ml_tarot_cards_overview_handler() {
     $mltarot_output .= '<h3>Grote Arcana</h3>';
     $mltarot_output .=  '<ul>';
 
-    $mlCardsGroteArcanaData = $wpdb->get_results("SELECT * FROM tarotcard WHERE tarotelement = 1 ORDER BY sortorder" );
+    $mlCardsGroteArcanaData = $wpdb->get_results("SELECT * FROM ml_tarotcard WHERE tarotelement = 1 ORDER BY sortorder" );
     for($i=0; $i<count($mlCardsGroteArcanaData); $i++) {
         $mltarot_output .=  '<li><a href="' .'#' .'">' .$mlCardsGroteArcanaData[$i]->romannumber .' ' .$mlCardsGroteArcanaData[$i]->name .'</a></li>';
     }
@@ -245,7 +245,7 @@ function ml_tarot_cards_overview_handler() {
     $mltarot_output .= '<h4>Bekers</h4>';
     $mltarot_output .=  '<ul>';
 
-    $mlCardsBekersData = $wpdb->get_results("SELECT * FROM tarotcard WHERE tarotelement = 2 ORDER BY sortorder" );
+    $mlCardsBekersData = $wpdb->get_results("SELECT * FROM ml_tarotcard WHERE tarotelement = 2 ORDER BY sortorder" );
     for($i=0; $i<count($mlCardsBekersData); $i++) {
         $mltarot_output .=  '<li><a href="' .'#' .'">' .$mlCardsBekersData[$i]->romannumber .' ' .$mlCardsBekersData[$i]->name .'</a></li>';
     }
@@ -256,7 +256,7 @@ function ml_tarot_cards_overview_handler() {
     $mltarot_output .= '<h4>Zwaarden</h4>';
     $mltarot_output .=  '<ul>';
 
-    $mlCardsZwaardenData = $wpdb->get_results("SELECT * FROM tarotcard WHERE tarotelement = 3 ORDER BY sortorder" );
+    $mlCardsZwaardenData = $wpdb->get_results("SELECT * FROM ml_tarotcard WHERE tarotelement = 3 ORDER BY sortorder" );
     for($i=0; $i<count($mlCardsZwaardenData); $i++) {
         $mltarot_output .=  '<li><a href="' .'#' .'">' .$mlCardsZwaardenData[$i]->romannumber .' ' .$mlCardsZwaardenData[$i]->name .'</a></li>';
     }
@@ -267,7 +267,7 @@ function ml_tarot_cards_overview_handler() {
     $mltarot_output .= '<h4>Staven</h4>';
     $mltarot_output .=  '<ul>';
 
-    $mlCardsStavenData = $wpdb->get_results("SELECT * FROM tarotcard WHERE tarotelement = 4 ORDER BY sortorder" );
+    $mlCardsStavenData = $wpdb->get_results("SELECT * FROM ml_tarotcard WHERE tarotelement = 4 ORDER BY sortorder" );
     for($i=0; $i<count($mlCardsStavenData); $i++) {
         $mltarot_output .=  '<li><a href="' .'#' .'">' .$mlCardsStavenData[$i]->romannumber .' ' .$mlCardsStavenData[$i]->name .'</a></li>';
     }
@@ -278,7 +278,7 @@ function ml_tarot_cards_overview_handler() {
     $mltarot_output .= '<h4>Pentakels</h4>';
     $mltarot_output .=  '<ul>';
 
-    $mlCardsPentakelsData = $wpdb->get_results("SELECT * FROM tarotcard WHERE tarotelement = 5 ORDER BY sortorder" );
+    $mlCardsPentakelsData = $wpdb->get_results("SELECT * FROM ml_tarotcard WHERE tarotelement = 5 ORDER BY sortorder" );
     for($i=0; $i<count($mlCardsPentakelsData); $i++) {
         $mltarot_output .=  '<li><a href="' .'#' .'">' .$mlCardsPentakelsData[$i]->romannumber .' ' .$mlCardsPentakelsData[$i]->name .'</a></li>';
     }
@@ -294,7 +294,7 @@ function ml_tarot_cardinterpretation_handler()
     $mlCardId = absint($_GET["id"]);
 
     global $wpdb;
-    $mlCardRow = $wpdb->get_row($wpdb->prepare("SELECT * FROM tarotcard WHERE id = '%d';", $mlCardId));
+    $mlCardRow = $wpdb->get_row($wpdb->prepare("SELECT * FROM ml_tarotcard WHERE id = '%d';", $mlCardId));
 
     if (count($mlCardRow)  > 0) {
          $mltarot_output .= '<h2>' .$mlCardRow->name .'</h2>';
