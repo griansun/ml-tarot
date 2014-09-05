@@ -15,4 +15,12 @@ jQuery(function () {
             document.location.href = '/tarot/legging?ml_reading=' + obj.readingdata;
         });
     });
-});        // end function
+
+    jQuery("div.spreadpanel")
+        .mouseover(function () {
+            jQuery(this).addClass("over");
+        })
+        .mouseout(function () {
+            jQuery(this).removeClass("over");
+        });
+});          // end function

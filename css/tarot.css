@@ -19,7 +19,19 @@
         -moz-border-radius: 15px;
         border-radius: 15px;
         overflow: hidden;
+        cursor: pointer;
     }
+    #spreadoverview .spreadpanel.over {
+        background-color: #00c8d7;
+        color: #fff;
+    }   
+        #spreadoverview .spreadpanel.over h4 {
+            color: #fff;
+        }        
+    #spreadoverview .spreadpanel .spreadtitle {
+        font-weight: bold;
+    }
+    
 
 .spread {
     margin-left:  auto;

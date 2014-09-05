@@ -70,7 +70,7 @@ function ml_tarot_spread_overview_function() {
             <div class="spreadimagepanel">
                 <img src="' .plugins_url( 'images/legpatronen/' .$mlSpreadData->image , __FILE__ ) .'" class="spreadimage" />
             </div>
-            <a href="#" id="spreadlink-' .$mlSpreadData->id .'" class="spreadlink">' . $mlSpreadData->name .'</a>
+            <h4>' . $mlSpreadData->name .'</h4>
         </div>
         </li>';
     }
