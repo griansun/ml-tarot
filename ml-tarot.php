@@ -10,6 +10,7 @@ Author: Ariska Keldermann
 add_shortcode("ml-tarot-spread-overview", "ml_tarot_spread_overview_handler");
 add_shortcode("ml-tarot-dynamicspread", "ml_tarot_dynamicspread_handler");
 add_shortcode("ml-tarot-cards-overview", "ml_tarot_cards_overview_handler");
+add_shortcode("ml-tarot-cardinterpretation", "ml_tarot_cardinterpretation_handler");
 
 add_action( 'wp_enqueue_scripts', 'ml_tarot_scripts' );
 add_action( 'wp_ajax_ml_generatereading', 'ml_generatereading_callback' );
@@ -88,7 +89,6 @@ function ml_tarot_dynamicspread_handler() {
 }
 
 function ml_tarot_dynamicspread_function() {
-  //process plugin
 
   $readingstring = $_GET["ml_reading"];
   $totalCards = (int)substr($readingstring, 0, 2);
@@ -286,6 +286,21 @@ function ml_tarot_cards_overview_handler() {
     $mltarot_output .=  '</ul>';
 
     return $mltarot_output; 
+}
+
+function ml_tarot_cardinterpretation_handler()
+{
+    $mltarot_output = '';
+    $mlCardId = absint($_GET["id"]);
+
+    global $wpdb;
+    $mlCardRow = $wpdb->get_row($wpdb->prepare("SELECT * FROM tarotcard WHERE id = '%d';", $mlCardId));
+
+    if (count($mlCardRow)  > 0) {
+         $mltarot_output .= '<h2>' .$mlCardRow->name .'</h2>';
+    }
+
+    return $mltarot_output;
 }
 
 function ml_tarot_scripts()
