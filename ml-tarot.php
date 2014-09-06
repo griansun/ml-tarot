@@ -298,6 +298,43 @@ function ml_tarot_cardinterpretation_handler()
 
     if (count($mlCardRow)  > 0) {
          $mltarot_output .= '<h2>' .$mlCardRow->name .'</h2>';
+         $mltarot_output .= '<h3>Kernwoorden</h3>';
+         $mltarot_output .= '<ul>';
+         $mltarot_output .= '<li><strong>Drang: </strong>' .$mlCardRow->interpretation_drang .'</li>';
+         $mltarot_output .= '<li><strong>Doel: </strong>' .$mlCardRow->interpretation_doel .'</li>';
+         $mltarot_output .= '<li><strong>Licht: </strong>' .$mlCardRow->interpretation_licht .'</li>';
+         $mltarot_output .= '<li><strong>Aanmoediging: </strong>' .$mlCardRow->interpretation_aanmoediging .'</li>';
+         $mltarot_output .= '<li><strong>Schaduw: </strong>' .$mlCardRow->interpretation_schaduw .'</li>';
+         $mltarot_output .= '<li><strong>Waarschuwing: </strong>' .$mlCardRow->interpretation_waarschuwing .'</li>';
+         $mltarot_output .= '<li><strong>Kwaliteit: </strong>' .$mlCardRow->interpretation_kwaliteit .'</li>';
+         $mltarot_output .= '</ul>';
+
+         $mltarot_output .= '<h3>Algemeen</h3>';
+         $mltarot_output .= '<ul>';
+         $mlKeywordsAlgemeen = explode(";", $mlCardRow->interpretation_keywords_algemeen);
+         foreach($mlKeywordsAlgemeen as $mlKeywordAlgemeen) {
+            $mltarot_output .= '<li>' .$mlKeywordAlgemeen .'</li>';
+         }
+         $mltarot_output .= '</ul>';
+
+         $mltarot_output .= '<h3>Beroep</h3>';
+         $mltarot_output .= '<ul>';
+         $mlKeywordsBeroep = explode(";", $mlCardRow->interpretation_keywords_beroep);
+         foreach($mlKeywordsBeroep as $mlKeywordBeroep) {
+            $mltarot_output .= '<li>' .$mlKeywordBeroep .'</li>';
+         }
+         $mltarot_output .= '</ul>';
+
+         $mltarot_output .= '<h3>Relatie</h3>';
+         $mltarot_output .= '<ul>';
+         $mlKeywordsRelatie = explode(";", $mlCardRow->interpretation_keywords_relatie);
+         foreach($mlKeywordsRelatie as $mlKeywordRelatie) {
+            $mltarot_output .= '<li>' .$mlKeywordRelatie .'</li>';
+         }
+         $mltarot_output .= '</ul>';
+
+         $mltarot_output .= '<h3>Dagkaart</h3>';
+         $mltarot_output .= '<p>' .$mlCardRow->interpretation_dagkaart .'</p>';
     }
 
     return $mltarot_output;
