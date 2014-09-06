@@ -16,6 +16,8 @@ add_action( 'wp_enqueue_scripts', 'ml_tarot_scripts' );
 add_action( 'wp_ajax_ml_generatereading', 'ml_generatereading_callback' );
 add_action( 'wp_ajax_nopriv_ml_generatereading', 'ml_generatereading_callback' );
 
+add_filter( 'body_class', 'ml_tarot_body_class_handler' );
+
 function ml_generatereading_callback() {
 	global $wpdb; // this is how you get access to the database
 
@@ -290,6 +292,11 @@ function ml_tarot_cards_overview_handler() {
 
 function ml_tarot_cardinterpretation_handler()
 {
+    $mltarot_divider = '<div class="wpb_row  vc_row-fluid  mk-fullwidth-false add-padding-0 attched-false">
+    <div class="vc_span12 wpb_column column_container " style="">
+    <div class="mk-divider mk-shortcode divider_full_width single_dotted " style="padding: 20px 0 70px;"><div class="divider-inner"></div></div><div class="clearboth"></div>
+    </div></div>';
+
     $mltarot_output = '';
     $mlCardId = absint($_GET["id"]);
 
@@ -297,8 +304,8 @@ function ml_tarot_cardinterpretation_handler()
     $mlCardRow = $wpdb->get_row($wpdb->prepare("SELECT * FROM ml_tarotcard WHERE id = '%d';", $mlCardId));
 
     if (count($mlCardRow)  > 0) {
-         $mltarot_output .= '<h2>' .$mlCardRow->name .'</h2>';
-         $mltarot_output .= '<h3>Kernwoorden</h3>';
+         $mltarot_output .= '<h3>' .$mlCardRow->name .'</h3>';
+         $mltarot_output .= '<h4>Kernwoorden</h4>';
          $mltarot_output .= '<ul>';
          $mltarot_output .= '<li><strong>Drang: </strong>' .$mlCardRow->interpretation_drang .'</li>';
          $mltarot_output .= '<li><strong>Doel: </strong>' .$mlCardRow->interpretation_doel .'</li>';
@@ -309,15 +316,17 @@ function ml_tarot_cardinterpretation_handler()
          $mltarot_output .= '<li><strong>Kwaliteit: </strong>' .$mlCardRow->interpretation_kwaliteit .'</li>';
          $mltarot_output .= '</ul>';
 
+         $mltarot_output .= $mltarot_divider;
+
          $mltarot_output .= '<div class="wpb_row  vc_row-fluid  mk-fullwidth-false add-padding-0 attched-false">';
 
          // begin algemeen
          $mltarot_output .= '<div class="vc_span4 wpb_column column_container " style="">';
          $mltarot_output .= '<div class="   simple_ultimate-style mk-box-icon" style="margin-bottom:30px;" id="box-icon-797">';
          $mltarot_output .= '<div class="left-side ">';
-         $mltarot_output .= '<a href="#"><i class="mk-moon-star-4 small mk-main-ico" style="color:#0bb697;"></i></a>';
+         $mltarot_output .= '<i class="mk-moon-star-4 small mk-main-ico" style="color:#0bb697;"></i>';
          $mltarot_output .= '<div class="box-detail-wrapper small-size">';
-         $mltarot_output .= '<h3>Algemeen</h3>';
+         $mltarot_output .= '<h4>Algemeen</h4>';
          $mltarot_output .= '<ul>';
          $mlKeywordsAlgemeen = explode(";", $mlCardRow->interpretation_keywords_algemeen);
          foreach($mlKeywordsAlgemeen as $mlKeywordAlgemeen) {
@@ -335,9 +344,9 @@ function ml_tarot_cardinterpretation_handler()
          $mltarot_output .= '<div class="vc_span4 wpb_column column_container " style="">';
          $mltarot_output .= '<div class="   simple_ultimate-style mk-box-icon" style="margin-bottom:30px;" id="box-icon-797">';
          $mltarot_output .= '<div class="left-side ">';
-         $mltarot_output .= '<a href="#"><i class="mk-icon-building small mk-main-ico" style="color:#0bb697;"></i></a>';
+         $mltarot_output .= '<i class="mk-icon-building small mk-main-ico" style="color:#0bb697;"></i>';
          $mltarot_output .= '<div class="box-detail-wrapper small-size">';
-         $mltarot_output .= '<h3>Beroep</h3>';
+         $mltarot_output .= '<h4>Beroep</h4>';
          $mltarot_output .= '<ul>';
          $mlKeywordsBeroep = explode(";", $mlCardRow->interpretation_keywords_beroep);
          foreach($mlKeywordsBeroep as $mlKeywordBeroep) {
@@ -355,9 +364,9 @@ function ml_tarot_cardinterpretation_handler()
          $mltarot_output .= '<div class="vc_span4 wpb_column column_container " style="">';
          $mltarot_output .= '<div class="   simple_ultimate-style mk-box-icon" style="margin-bottom:30px;" id="box-icon-797">';
          $mltarot_output .= '<div class="left-side ">';
-         $mltarot_output .= '<a href="#"><i class="mk-moon-heart-6 small mk-main-ico" style="color:#0bb697;"></i></a>';
+         $mltarot_output .= '<i class="mk-moon-heart-6 small mk-main-ico" style="color:#0bb697;"></i>';
          $mltarot_output .= '<div class="box-detail-wrapper small-size">';
-         $mltarot_output .= '<h3>Relatie</h3>';
+         $mltarot_output .= '<h4>Relatie</h4>';
          $mltarot_output .= '<ul>';
          $mlKeywordsRelatie = explode(";", $mlCardRow->interpretation_keywords_relatie);
          foreach($mlKeywordsRelatie as $mlKeywordRelatie) {
@@ -373,11 +382,29 @@ function ml_tarot_cardinterpretation_handler()
 
          $mltarot_output .= '</div>'; // end div row keywords
 
-         $mltarot_output .= '<h3>Dagkaart</h3>';
-         $mltarot_output .= '<p>' .$mlCardRow->interpretation_dagkaart .'</p>';
+         $mltarot_output .= $mltarot_divider;
+
+         $mltarot_output .= '<div class="wpb_row  vc_row-fluid  mk-fullwidth-false add-padding-0 attched-false">
+        <div class="vc_span12 wpb_column column_container " style="">
+        <div class="   boxed-style mk-box-icon" style="margin-bottom:30px;" id="box-icon-406"><div class="icon-box-boxed  left"><i class="mk-moon-eye-4 mk-main-ico" style="border:1px solid #c16f60;background-color:#c16f60;color:#ffffff;"></i>
+        <h4 style="font-size:16px;font-weight:inhert;"><a href="#">' .$mlCardRow->name .' als dagkaart</a></h4>
+        <p>' .$mlCardRow->interpretation_dagkaart .'</p>
+        <div class="clearboth"></div><div class="clearboth"></div></div></div><style type="text/css"></style>
+        </div>
+        </div>';
+
+         //$mltarot_output .= '<h3>Dagkaart</h3>';
+         //$mltarot_output .= '<p>' .$mlCardRow->interpretation_dagkaart .'</p>';
     }
 
     return $mltarot_output;
+}
+
+function ml_tarot_body_class_handler($classes)
+{
+    $classes[] = 'tarot-interpretation';  
+	     
+    return $classes;
 }
 
 function ml_tarot_scripts()

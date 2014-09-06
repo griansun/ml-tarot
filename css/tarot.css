@@ -32,7 +32,9 @@
         font-weight: bold;
     }
     
-
+.tarot-interpretation ul {
+    margin-left: 0;
+}
 .spread {
     margin-left:  auto;
     margin-right:  auto;
