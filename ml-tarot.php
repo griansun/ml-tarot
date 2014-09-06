@@ -304,7 +304,28 @@ function ml_tarot_cardinterpretation_handler()
     $mlCardRow = $wpdb->get_row($wpdb->prepare("SELECT * FROM ml_tarotcard WHERE id = '%d';", $mlCardId));
 
     if (count($mlCardRow)  > 0) {
-         $mltarot_output .= '<h3>' .$mlCardRow->name .'</h3>';
+         //$mltarot_output .= '<h3>' .$mlCardRow->name .'</h3>';
+         // add title
+         $mltarot_output .= '<div class="wpb_row  vc_row-fluid  mk-fullwidth-false add-padding-0 attched-false">
+        <div class="vc_span12 wpb_column column_container " style="">
+        <h1 class="mk-shortcode mk-fancy-title simple-style " id="fancy-title-432" style="font-size: 38px;text-align:center;color: #333333;font-weight:300;margin-top:0px;margin-bottom:20px; "><span style="">
+        <p>' .$mlCardRow->name .'</p>
+        </span></h1><div class="clearboth"></div>
+        </div></div>';
+
+        $mltarot_output .= '<div class="wpb_row  vc_row-fluid  mk-fullwidth-false add-padding-0 attched-false">
+        <div class="vc_span2 wpb_column column_container " style="">
+        </div>
+        <div class="vc_span8 wpb_column column_container " style="">
+        <div class="mk-text-block  " style=" margin-bottom:30px;text-align: center;" id="mk-text-block-223">
+        <p><strong>' .$mlCardRow->interpretationsummary .'</strong></p>
+        <div class="clearboth"></div></div>
+        </div>
+        <div class="vc_span2 wpb_column column_container " style="">
+        </div></div>';
+
+        $mltarot_output .= $mltarot_divider;
+
          $mltarot_output .= '<h4>Kernwoorden</h4>';
          $mltarot_output .= '<ul>';
          $mltarot_output .= '<li><strong>Drang: </strong>' .$mlCardRow->interpretation_drang .'</li>';
