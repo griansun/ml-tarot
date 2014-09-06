@@ -309,6 +309,14 @@ function ml_tarot_cardinterpretation_handler()
          $mltarot_output .= '<li><strong>Kwaliteit: </strong>' .$mlCardRow->interpretation_kwaliteit .'</li>';
          $mltarot_output .= '</ul>';
 
+         $mltarot_output .= '<div class="wpb_row  vc_row-fluid  mk-fullwidth-false add-padding-0 attched-false">';
+
+         // begin algemeen
+         $mltarot_output .= '<div class="vc_span4 wpb_column column_container " style="">';
+         $mltarot_output .= '<div class="   simple_ultimate-style mk-box-icon" style="margin-bottom:30px;" id="box-icon-797">';
+         $mltarot_output .= '<div class="left-side ">';
+         $mltarot_output .= '<a href="#"><i class="mk-moon-star-4 small mk-main-ico" style="color:#0bb697;"></i></a>';
+         $mltarot_output .= '<div class="box-detail-wrapper small-size">';
          $mltarot_output .= '<h3>Algemeen</h3>';
          $mltarot_output .= '<ul>';
          $mlKeywordsAlgemeen = explode(";", $mlCardRow->interpretation_keywords_algemeen);
@@ -316,7 +324,19 @@ function ml_tarot_cardinterpretation_handler()
             $mltarot_output .= '<li>' .$mlKeywordAlgemeen .'</li>';
          }
          $mltarot_output .= '</ul>';
-
+         $mltarot_output .= '<div class="clearboth"></div>';
+         $mltarot_output .= '</div>'; // end div box-detail
+         $mltarot_output .= '<div class="clearboth"></div></div>'; // end div left-side
+         $mltarot_output .= '</div>'; // end div simple_ultimate_style
+         $mltarot_output .= '</div>'; // end div vc_span4
+         //end algemeen
+         
+         // begin beroep
+         $mltarot_output .= '<div class="vc_span4 wpb_column column_container " style="">';
+         $mltarot_output .= '<div class="   simple_ultimate-style mk-box-icon" style="margin-bottom:30px;" id="box-icon-797">';
+         $mltarot_output .= '<div class="left-side ">';
+         $mltarot_output .= '<a href="#"><i class="mk-icon-building small mk-main-ico" style="color:#0bb697;"></i></a>';
+         $mltarot_output .= '<div class="box-detail-wrapper small-size">';
          $mltarot_output .= '<h3>Beroep</h3>';
          $mltarot_output .= '<ul>';
          $mlKeywordsBeroep = explode(";", $mlCardRow->interpretation_keywords_beroep);
@@ -324,7 +344,19 @@ function ml_tarot_cardinterpretation_handler()
             $mltarot_output .= '<li>' .$mlKeywordBeroep .'</li>';
          }
          $mltarot_output .= '</ul>';
+         $mltarot_output .= '<div class="clearboth"></div>';
+         $mltarot_output .= '</div>'; // end div box-detail
+         $mltarot_output .= '<div class="clearboth"></div></div>'; // end div left-side
+         $mltarot_output .= '</div>'; // end div simple_ultimate_style
+         $mltarot_output .= '</div>'; // end div vc_span4
+         //end beroep
 
+         // begin relatie
+         $mltarot_output .= '<div class="vc_span4 wpb_column column_container " style="">';
+         $mltarot_output .= '<div class="   simple_ultimate-style mk-box-icon" style="margin-bottom:30px;" id="box-icon-797">';
+         $mltarot_output .= '<div class="left-side ">';
+         $mltarot_output .= '<a href="#"><i class="mk-moon-heart-6 small mk-main-ico" style="color:#0bb697;"></i></a>';
+         $mltarot_output .= '<div class="box-detail-wrapper small-size">';
          $mltarot_output .= '<h3>Relatie</h3>';
          $mltarot_output .= '<ul>';
          $mlKeywordsRelatie = explode(";", $mlCardRow->interpretation_keywords_relatie);
@@ -332,6 +364,14 @@ function ml_tarot_cardinterpretation_handler()
             $mltarot_output .= '<li>' .$mlKeywordRelatie .'</li>';
          }
          $mltarot_output .= '</ul>';
+         $mltarot_output .= '<div class="clearboth"></div>';
+         $mltarot_output .= '</div>'; // end div box-detail
+         $mltarot_output .= '<div class="clearboth"></div></div>'; // end div left-side
+         $mltarot_output .= '</div>'; // end div simple_ultimate_style
+         $mltarot_output .= '</div>'; // end div vc_span4
+         // end relatie
+
+         $mltarot_output .= '</div>'; // end div row keywords
 
          $mltarot_output .= '<h3>Dagkaart</h3>';
          $mltarot_output .= '<p>' .$mlCardRow->interpretation_dagkaart .'</p>';
