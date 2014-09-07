@@ -229,15 +229,19 @@ function ml_tarot_dynamicspread_function() {
 
 function ml_tarot_cards_overview_handler() {
     $mltarot_output = '';
-
+    $mlCardUrl = '';
+    $mlCardsBekersData = '';
+    
     global $wpdb;
     // get cards 'grote arcana'
     $mltarot_output .= '<h3>Grote Arcana</h3>';
     $mltarot_output .=  '<ul>';
 
+
     $mlCardsGroteArcanaData = $wpdb->get_results("SELECT * FROM ml_tarotcard WHERE tarotelement = 1 ORDER BY sortorder" );
     for($i=0; $i<count($mlCardsGroteArcanaData); $i++) {
-        $mltarot_output .=  '<li><a href="' .'#' .'">' .$mlCardsGroteArcanaData[$i]->romannumber .' ' .$mlCardsGroteArcanaData[$i]->name .'</a></li>';
+        $mlCardUrl = mlGetCardInterpretationUrl($mlCardsGroteArcanaData[$i]);
+        $mltarot_output .=  '<li><a href="' .$mlCardUrl .'">' .$mlCardsGroteArcanaData[$i]->romannumber .' ' .$mlCardsGroteArcanaData[$i]->name .'</a></li>';
     }
 
     $mltarot_output .=  '</ul>';
@@ -249,7 +253,8 @@ function ml_tarot_cards_overview_handler() {
 
     $mlCardsBekersData = $wpdb->get_results("SELECT * FROM ml_tarotcard WHERE tarotelement = 2 ORDER BY sortorder" );
     for($i=0; $i<count($mlCardsBekersData); $i++) {
-        $mltarot_output .=  '<li><a href="' .'#' .'">' .$mlCardsBekersData[$i]->romannumber .' ' .$mlCardsBekersData[$i]->name .'</a></li>';
+        $mlCardUrl = mlGetCardInterpretationUrl($mlCardsBekersData[$i]);
+        $mltarot_output .=  '<li><a href="' .$mlCardUrl .'">' .$mlCardsBekersData[$i]->romannumber .' ' .$mlCardsBekersData[$i]->name .'</a></li>';
     }
 
     $mltarot_output .=  '</ul>';
@@ -260,7 +265,8 @@ function ml_tarot_cards_overview_handler() {
 
     $mlCardsZwaardenData = $wpdb->get_results("SELECT * FROM ml_tarotcard WHERE tarotelement = 3 ORDER BY sortorder" );
     for($i=0; $i<count($mlCardsZwaardenData); $i++) {
-        $mltarot_output .=  '<li><a href="' .'#' .'">' .$mlCardsZwaardenData[$i]->romannumber .' ' .$mlCardsZwaardenData[$i]->name .'</a></li>';
+        $mlCardUrl = mlGetCardInterpretationUrl($mlCardsZwaardenData[$i]);
+        $mltarot_output .=  '<li><a href="' .$mlCardUrl .'">' .$mlCardsZwaardenData[$i]->romannumber .' ' .$mlCardsZwaardenData[$i]->name .'</a></li>';
     }
 
     $mltarot_output .=  '</ul>';
@@ -271,7 +277,8 @@ function ml_tarot_cards_overview_handler() {
 
     $mlCardsStavenData = $wpdb->get_results("SELECT * FROM ml_tarotcard WHERE tarotelement = 4 ORDER BY sortorder" );
     for($i=0; $i<count($mlCardsStavenData); $i++) {
-        $mltarot_output .=  '<li><a href="' .'#' .'">' .$mlCardsStavenData[$i]->romannumber .' ' .$mlCardsStavenData[$i]->name .'</a></li>';
+        $mlCardUrl = mlGetCardInterpretationUrl($mlCardsStavenData[$i]);
+        $mltarot_output .=  '<li><a href="' .$mlCardUrl .'">' .$mlCardsStavenData[$i]->romannumber .' ' .$mlCardsStavenData[$i]->name .'</a></li>';
     }
 
     $mltarot_output .=  '</ul>';
@@ -282,7 +289,8 @@ function ml_tarot_cards_overview_handler() {
 
     $mlCardsPentakelsData = $wpdb->get_results("SELECT * FROM ml_tarotcard WHERE tarotelement = 5 ORDER BY sortorder" );
     for($i=0; $i<count($mlCardsPentakelsData); $i++) {
-        $mltarot_output .=  '<li><a href="' .'#' .'">' .$mlCardsPentakelsData[$i]->romannumber .' ' .$mlCardsPentakelsData[$i]->name .'</a></li>';
+        $mlCardUrl = mlGetCardInterpretationUrl($mlCardsPentakelsData[$i]);
+        $mltarot_output .=  '<li><a href="' .$mlCardUrl .'">' .$mlCardsPentakelsData[$i]->romannumber .' ' .$mlCardsPentakelsData[$i]->name .'</a></li>';
     }
 
     $mltarot_output .=  '</ul>';
@@ -439,6 +447,10 @@ function ml_tarot_scripts()
 
     wp_localize_script( 'ml-tarot-script', 'ajax_object',
             array( 'ajax_url' => admin_url( 'admin-ajax.php' ), 'we_value' => 1234 ) );
+}
+
+function mlGetCardInterpretationUrl($mlCardRow) {
+    return 'tarotkaart-betekenis?id=' .$mlCardRow->id;
 }
 
 // Generate Guid 
