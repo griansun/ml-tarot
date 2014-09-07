@@ -373,7 +373,7 @@ function ml_tarot_cardinterpretation_handler()
          $mltarot_output .= '<div class="vc_span4 wpb_column column_container " style="">';
          $mltarot_output .= '<div class="   simple_ultimate-style mk-box-icon" style="margin-bottom:30px;" id="box-icon-797">';
          $mltarot_output .= '<div class="left-side ">';
-         $mltarot_output .= '<i class="mk-icon-building small mk-main-ico" style="color:#0bb697;"></i>';
+         $mltarot_output .= '<i class="mk-moon-user-7 small mk-main-ico" style="color:#0bb697;"></i>';
          $mltarot_output .= '<div class="box-detail-wrapper small-size">';
          $mltarot_output .= '<h4>Beroep</h4>';
          $mltarot_output .= '<ul>';
