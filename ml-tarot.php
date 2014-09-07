@@ -52,13 +52,6 @@ function ml_generatereading_callback() {
 }
 
 function ml_tarot_spread_overview_handler() {
-  //run function that actually does the work of the plugin
-  $demolph_output = ml_tarot_spread_overview_function();
-  //send back text to replace shortcode in post
-  return $demolph_output;
-}
-
-function ml_tarot_spread_overview_function() {
   //process plugin
   $demolp_output = "Leggingen: ";
   //send back text to calling function
@@ -84,14 +77,6 @@ function ml_tarot_spread_overview_function() {
 }
 
 function ml_tarot_dynamicspread_handler() {
-  //run function that actually does the work of the plugin
-  $demolph_output = ml_tarot_dynamicspread_function();
-  //send back text to replace shortcode in post
-  return $demolph_output;
-}
-
-function ml_tarot_dynamicspread_function() {
-
   $readingstring = $_GET["ml_reading"];
   $totalCards = (int)substr($readingstring, 0, 2);
 
@@ -162,7 +147,7 @@ function ml_tarot_dynamicspread_function() {
 
       //$demolp_output = $demolp_output ."<ul>";
       for($i=0; $i<count($mlSpreadPositionsData); $i++) {
-        $mlCardRow = $wpdb->get_row($wpdb->prepare("SELECT ml_tarotcard.id as tarotcardid, ml_tarotcard.name, ml_tarotcard.interpretationsummary, tarotcarddeck.image FROM ml_tarotcard INNER JOIN tarotcarddeck ON ml_tarotcard.id = tarotcarddeck.tarotcard WHERE tarotdeck = '%d' AND ml_tarotcard.id = '%d';", $tarotDeckId, $mltarotCardNumbers[$i]));
+        $mlCardRow = $wpdb->get_row($wpdb->prepare("SELECT ml_tarotcard.id as tarotcardid, ml_tarotcard.name, ml_tarotcard.interpretationsummary, tarotcarddeck.image, ml_tarotcard.id FROM ml_tarotcard INNER JOIN tarotcarddeck ON ml_tarotcard.id = tarotcarddeck.tarotcard WHERE tarotdeck = '%d' AND ml_tarotcard.id = '%d';", $tarotDeckId, $mltarotCardNumbers[$i]));
         $mlCardId = -1;
         if(isset($mlCardRow->id))
         {
@@ -177,7 +162,9 @@ function ml_tarot_dynamicspread_function() {
                                                 'CardInterpretationSummary' => $mlCardRow->interpretationsummary,
                                                 'CardId' => $mlCardId,
                                                 'CardImage' => $mlCardRow->image,
-                                                'CardImagePath' => plugins_url( 'images/decks/' .$mlDeckImagesFolder . '/' .$mlCardRow->image , __FILE__ ) );
+                                                'CardImagePath' => plugins_url( 'images/decks/' .$mlDeckImagesFolder . '/' .$mlCardRow->image , __FILE__ ),
+                                                'CardInterpretationUrl' => mlGetCardInterpretationUrl($mlCardRow)
+                                                );
 
         $mlSpreadPositions[$i] = $mlSpreadPositionObj;
         /*$demolp_output = $demolp_output ."<li>position: " . $mlSpreadPositions[$i]->SpreadPositionName . ", card: " .$mlSpreadPositions[$i]->CardName . 
@@ -215,7 +202,8 @@ function ml_tarot_dynamicspread_function() {
         //$demolp_output = $demolp_output .'<img src="' .$mlSpreadPositions[$i]->CardImagePath .'" />';
         $demolp_output = $demolp_output .'<h4>Positie '.$mlSpreadPositions[$i]->SpreadPositionNumber . ': <strong>'  .$mlSpreadPositions[$i]->CardName .'</strong></h4>';
         $demolp_output = $demolp_output .'<p><strong>Betekenis positie:</strong> '.$mlSpreadPositions[$i]->SpreadPositionDescription   .'</p>';
-        $demolp_output = $demolp_output .'<p><strong>Betekenis kaart</strong>: '.$mlSpreadPositions[$i]->CardInterpretationSummary   .'</p>';
+        $demolp_output = $demolp_output .'<p><strong>Betekenis kaart</strong>: '.$mlSpreadPositions[$i]->CardInterpretationSummary   .'
+        <br /><a href="' .$mlSpreadPositions[$i]->CardInterpretationUrl .'">Lees meer over ' .$mlSpreadPositions[$i]->CardName .' ></a></p>';
         $demolp_output = $demolp_output .'</div>'; // end interpretation div
     }
 
@@ -450,7 +438,7 @@ function ml_tarot_scripts()
 }
 
 function mlGetCardInterpretationUrl($mlCardRow) {
-    return 'tarotkaart-betekenis?id=' .$mlCardRow->id;
+    return '/tarotkaart-betekenissen/tarotkaart-betekenis?id=' .$mlCardRow->id;
 }
 
 // Generate Guid 
