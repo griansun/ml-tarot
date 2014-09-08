@@ -202,8 +202,8 @@ function ml_tarot_dynamicspread_handler() {
         //$demolp_output = $demolp_output .'<img src="' .$mlSpreadPositions[$i]->CardImagePath .'" />';
         $demolp_output = $demolp_output .'<h4>Positie '.$mlSpreadPositions[$i]->SpreadPositionNumber . ': <strong>'  .$mlSpreadPositions[$i]->CardName .'</strong></h4>';
         $demolp_output = $demolp_output .'<p><strong>Betekenis positie:</strong> '.$mlSpreadPositions[$i]->SpreadPositionDescription   .'</p>';
-        $demolp_output = $demolp_output .'<p><strong>Betekenis kaart</strong>: '.$mlSpreadPositions[$i]->CardInterpretationSummary   .'
-        <br /><a href="' .$mlSpreadPositions[$i]->CardInterpretationUrl .'">Lees meer over ' .$mlSpreadPositions[$i]->CardName .' ></a></p>';
+        $demolp_output = $demolp_output .'<p><strong>Betekenis kaart</strong>: '.$mlSpreadPositions[$i]->CardInterpretationSummary   .'</p>
+        <p><a class="icon-box-readmore" href="' .$mlSpreadPositions[$i]->CardInterpretationUrl .'">Lees meer over ' .$mlSpreadPositions[$i]->CardName .' <i class="mk-icon-caret-right"></i></a></p>';
         $demolp_output = $demolp_output .'</div>'; // end interpretation div
     }
 
