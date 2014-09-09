@@ -22,7 +22,7 @@ function ml_generatereading_callback() {
 	global $wpdb; // this is how you get access to the database
 
     $mlSpreadid = $_POST['spreadid'];
-    $mlSpreadRow = $wpdb->get_row($wpdb->prepare("SELECT * FROM tarotspread WHERE id = '%d';", $mlSpreadid));
+    $mlSpreadRow = $wpdb->get_row($wpdb->prepare("SELECT * FROM ml_tarotspread WHERE id = '%d';", $mlSpreadid));
 
 	$mlSpreadTotalCards = $mlSpreadRow->totalcards;
     $mlReadingGuid = mlNewGuid();
@@ -57,7 +57,7 @@ function ml_tarot_spread_overview_handler() {
   //send back text to calling function
 
   global $wpdb;
-  $mlSpreadsData = $wpdb->get_results("SELECT * FROM tarotspread ORDER BY visitorcount DESC LIMIT 15");
+  $mlSpreadsData = $wpdb->get_results("SELECT * FROM ml_tarotspread ORDER BY visitorcount DESC LIMIT 15");
 
     $demolp_output = '<ul id="spreadoverview">';
     foreach( $mlSpreadsData as $mlSpreadData ) {
@@ -136,7 +136,7 @@ function ml_tarot_dynamicspread_handler() {
       // get spread data
       global $wpdb;
 
-      $mlSpread = $wpdb->get_row($wpdb->prepare("SELECT * FROM tarotspread WHERE id = '%d';", $tarotSpreadId));
+      $mlSpread = $wpdb->get_row($wpdb->prepare("SELECT * FROM ml_tarotspread WHERE id = '%d';", $tarotSpreadId));
       $mlSpreadName = $mlSpread->name;
       $mlSpreadSummary = $mlSpread->summary;
       $mlSpreadQuestion = $mlSpread->question;
