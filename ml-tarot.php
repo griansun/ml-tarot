@@ -404,7 +404,7 @@ function ml_tarot_cardinterpretation_handler()
          $mltarot_output .= '<div class="wpb_row  vc_row-fluid  mk-fullwidth-false add-padding-0 attched-false">
         <div class="vc_span12 wpb_column column_container " style="">
         <div class="   boxed-style mk-box-icon" style="margin-bottom:30px;" id="box-icon-406"><div class="icon-box-boxed  left"><i class="mk-moon-eye-4 mk-main-ico" style="border:1px solid #c16f60;background-color:#c16f60;color:#ffffff;"></i>
-        <h4 style="font-size:16px;font-weight:inhert;"><a href="#">' .$mlCardRow->name .' als dagkaart</a></h4>
+        <h4 style="font-size:16px;font-weight:inhert;">' .$mlCardRow->name .' als dagkaart</h4>
         <p>' .$mlCardRow->interpretation_dagkaart .'</p>
         <div class="clearboth"></div><div class="clearboth"></div></div></div><style type="text/css"></style>
         </div>
