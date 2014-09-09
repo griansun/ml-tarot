@@ -147,7 +147,7 @@ function ml_tarot_dynamicspread_handler() {
 
       //$demolp_output = $demolp_output ."<ul>";
       for($i=0; $i<count($mlSpreadPositionsData); $i++) {
-        $mlCardRow = $wpdb->get_row($wpdb->prepare("SELECT ml_tarotcard.id as tarotcardid, ml_tarotcard.name, ml_tarotcard.interpretationsummary, tarotcarddeck.image, ml_tarotcard.id FROM ml_tarotcard INNER JOIN tarotcarddeck ON ml_tarotcard.id = tarotcarddeck.tarotcard WHERE tarotdeck = '%d' AND ml_tarotcard.id = '%d';", $tarotDeckId, $mltarotCardNumbers[$i]));
+        $mlCardRow = $wpdb->get_row($wpdb->prepare("SELECT ml_tarotcard.id as tarotcardid, ml_tarotcard.name, ml_tarotcard.interpretationsummary, ml_tarotcarddeck.image, ml_tarotcard.id FROM ml_tarotcard INNER JOIN ml_tarotcarddeck ON ml_tarotcard.id = ml_tarotcarddeck.tarotcard WHERE tarotdeck = '%d' AND ml_tarotcard.id = '%d';", $tarotDeckId, $mltarotCardNumbers[$i]));
         $mlCardId = -1;
         if(isset($mlCardRow->id))
         {
