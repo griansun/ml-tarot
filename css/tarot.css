@@ -88,6 +88,38 @@
     }
 /* end de volgende stap*/
 
+/* begin de weg */
+#spread10 { height:  770px; width: 345px;}
+    #spread10 #position1 { 
+        top:  0;
+        left:  127px;
+    }
+    #spread10 #position2 { 
+        top:  150px;
+        left:  0;
+    }
+    #spread10 #position3 { 
+        top:  350px;
+        left:  0;
+    }
+    #spread10 #position4 { 
+        top:  550px;
+        left:  0;
+    }
+    #spread10 #position5 { 
+        top:  550px;
+        left:  254px;
+    }
+    #spread10 #position6 { 
+        top:  350px;
+        left:  254px;
+    }
+    #spread10 #position7 { 
+        top:  150px;
+        left:  254px;
+    }
+/* end de weg */
+
 /* begin geheim van de hogepriesteres */
 #spread13 { height:  800px; width: 345px;}
     #spread13 #position1 { 
