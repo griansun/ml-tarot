@@ -53,39 +53,6 @@
     margin-bottom: 20px;    
 }
 
-/* begin relatiespel */
-#spread30 { height:  620px; width: 345px;}
-    #spread30 #position1 { 
-        top:  200px;
-        left:  122px;
-    }
-    #spread30 #position2 { 
-        top:  0;
-        left:  0;
-    }
-    #spread30 #position3 { 
-        top:  0;
-        left:  244px;
-    }
-    #spread30 #position4 { 
-        top:  200px;
-        left:  0;
-    }
-    #spread30 #position5 { 
-        top:  200px;
-        left:  244px;
-    }
-    #spread30 #position6 { 
-        top:  400px;
-        left:  0;
-    }
-    #spread30 #position7 { 
-        top:  400px;
-        left:  244px;
-    }
-/* end relatiespel */
-
-/*
 /* begin dagkaart */
 #spread6 { height:  250px; width: 100px;}
     #spread6 #position1 { 
@@ -151,3 +118,51 @@
         left:  481px;
     }
 /* end keltisch kruis */
+
+/* begin relatiespel */
+#spread30 { height:  620px; width: 345px;}
+    #spread30 #position1 { 
+        top:  200px;
+        left:  122px;
+    }
+    #spread30 #position2 { 
+        top:  0;
+        left:  0;
+    }
+    #spread30 #position3 { 
+        top:  0;
+        left:  244px;
+    }
+    #spread30 #position4 { 
+        top:  200px;
+        left:  0;
+    }
+    #spread30 #position5 { 
+        top:  200px;
+        left:  244px;
+    }
+    #spread30 #position6 { 
+        top:  400px;
+        left:  0;
+    }
+    #spread30 #position7 { 
+        top:  400px;
+        left:  244px;
+    }
+/* end relatiespel */
+
+/* begin uitgebreide dagkaart */
+#spread40 { height:  320px; width: 315px;}
+    #spread40 #position1 { 
+        top:  0;
+        left:  107px;
+    }
+    #spread40 #position2 { 
+        top:  90px;
+        left:  0;
+    }
+    #spread40 #position3 { 
+        top:  90px;
+        left:  214px;
+    }
+/* end uitgebreide dagkaart*/
