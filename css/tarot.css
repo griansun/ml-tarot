@@ -225,6 +225,22 @@
     }
 /* end relatiespel */
 
+/* begin simpele trekking */
+#spread32 { height:  200px; width: 342px;}
+    #spread32 #position1 { 
+        top:  0;
+        left:  0;
+    }
+    #spread32 #position2 { 
+        top:  0;
+        left:  120px;
+    }
+    #spread32 #position3 { 
+        top:  0;
+        left:  240px;
+    }
+/* end simpele trekking */
+
 /* begin uitgebreide dagkaart */
 #spread40 { height:  320px; width: 315px;}
     #spread40 #position1 { 

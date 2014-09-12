@@ -57,7 +57,7 @@ function ml_tarot_spread_overview_handler() {
   //send back text to calling function
 
   global $wpdb;
-  $mlSpreadsData = $wpdb->get_results("SELECT * FROM ml_tarotspread ORDER BY visitorcount DESC LIMIT 15");
+  $mlSpreadsData = $wpdb->get_results("SELECT * FROM ml_tarotspread ORDER BY visitorcount DESC LIMIT 8");
 
     $demolp_output = '<ul id="spreadoverview">';
     foreach( $mlSpreadsData as $mlSpreadData ) {
