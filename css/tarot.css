@@ -88,6 +88,60 @@
     }
 /* end de volgende stap*/
 
+/* begin geheim van de hogepriesteres */
+#spread13 { height:  800px; width: 345px;}
+    #spread13 #position1 { 
+        top:  200px;
+        left:  54px;
+    }
+    #spread13 #position2 { 
+        top:  200px;
+        left:  200px;
+    }
+        #spread13 #position2 img {
+            -moz-transform: rotate(90deg);
+            -webkit-transform: rotate(90deg);
+            -o-transform: rotate(90deg);
+            -ms-transform: rotate(90deg);
+            transform: rotate(90deg);
+        }
+    #spread13 #position3 { 
+        top:  0;
+        left:  144px;
+    }
+    #spread13 #position4 { 
+        top:  0;
+        left:  27px;
+    }
+    #spread13 #position5 { 
+        top:  0;
+        left:  261px;
+    }
+    #spread13 #position6 { 
+        top:  400px;
+        left:  0;
+    }
+    #spread13 #position7 { 
+        top:  400px;
+        left:  297px;
+    }
+    #spread13 #position8 { 
+        top:  601px;
+        left:  134px;
+    }
+    #spread13 #position9 { 
+        top:  400px;
+        left:  147px;
+    }
+        #spread13 #position9 img {
+            -moz-transform: rotate(90deg);
+            -webkit-transform: rotate(90deg);
+            -o-transform: rotate(90deg);
+            -ms-transform: rotate(90deg);
+            transform: rotate(90deg);
+        }
+/* end relatiespel */
+
 /* begin keltisch kruis */
 #spread21 { height:  820px; width: 582px;}
     #spread21 #position1 { 
