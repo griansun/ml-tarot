@@ -68,6 +68,26 @@
         }
 /* end dagkaart */
 
+/* begin de volgende stap */
+#spread9 { height:  520px; width: 330px;}
+    #spread9 #position1 { 
+        top:  150px;
+        left:  0;
+    }
+    #spread9 #position2 { 
+        top:  150px;
+        left:  230px;        
+    }
+    #spread9 #position3 { 
+        top:  300px;
+        left:  115px;
+    }
+    #spread9 #position4 { 
+        top:  0;
+        left:  115px;
+    }
+/* end de volgende stap*/
+
 /* begin keltisch kruis */
 #spread21 { height:  820px; width: 582px;}
     #spread21 #position1 { 
