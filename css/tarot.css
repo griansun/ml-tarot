@@ -11,8 +11,8 @@
     }
 
     #spreadoverview .spreadpanel {
-        padding: 10px;
-        margin: 10px;
+        padding: 20px;
+        margin: 20px 0;
         clear: both;
         border:  1px solid #00c8d7;
         -webkit-border-radius: 15px;
@@ -34,6 +34,9 @@
     
 .tarot-interpretation ul {
     margin-left: 0; 
+}
+.tarot-interpretation #interpretationsummary {
+    
 }
 .tarot-interpretation #tarotimages {
     margin-left:  auto;
