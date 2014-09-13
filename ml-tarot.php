@@ -15,8 +15,12 @@ add_shortcode("ml-tarot-cardinterpretation", "ml_tarot_cardinterpretation_handle
 add_action( 'wp_enqueue_scripts', 'ml_tarot_scripts' );
 add_action( 'wp_ajax_ml_generatereading', 'ml_generatereading_callback' );
 add_action( 'wp_ajax_nopriv_ml_generatereading', 'ml_generatereading_callback' );
+//add_action( 'init', 'ml_tarot_setup_rewrites' );
+add_action('init', 'ml_tarot_rewrite_rule');
 
 add_filter( 'body_class', 'ml_tarot_body_class_handler' );
+add_filter( 'query_vars', 'ml_tarot_query_vars' );
+
 
 function ml_generatereading_callback() {
 	global $wpdb; // this is how you get access to the database
@@ -286,6 +290,30 @@ function ml_tarot_cards_overview_handler() {
     return $mltarot_output; 
 }
 
+// set up the rewrite rule
+/*function ml_tarot_setup_rewrites(){
+    add_rewrite_rule(
+        'tarotkaart-betekenissen/tarotkaart-betekenis/([0-9]+)/?$',
+        'index.php?pagename=tarotkaart-betekenissen/tarotkaart-betekenis&tarotcardid=$matches[1]',
+        'top'
+    );
+}*/
+
+function ml_tarot_rewrite_rule() {    
+    global $wp; 
+    $wp->add_query_var('tarotcardslug');
+    add_rewrite_rule('tarotkaart-betekenissen/tarotkaart-betekenis/([a-z-]+)','index.php?pagename=tarotkaart-betekenissen/tarotkaart-betekenis&tarotcardslug=$matches[1]','top');
+    
+    /*global $wp_rewrite;
+    $wp_rewrite->flush_rules();*/
+}
+
+
+function ml_tarot_query_vars( $query_vars ){
+    $query_vars[] = 'tarotcardslug';
+    return $query_vars;
+}
+
 function ml_tarot_cardinterpretation_handler()
 {
     $mltarot_divider = '<div class="wpb_row  vc_row-fluid  mk-fullwidth-false add-padding-0 attched-false">
@@ -294,10 +322,10 @@ function ml_tarot_cardinterpretation_handler()
     </div></div>';
 
     $mltarot_output = '';
-    $mlCardId = absint($_GET["id"]);
+    $mlCardSlug = get_query_var("tarotcardslug");
 
     global $wpdb;
-    $mlCardRow = $wpdb->get_row($wpdb->prepare("SELECT * FROM ml_tarotcard WHERE id = '%d';", $mlCardId));
+    $mlCardRow = $wpdb->get_row($wpdb->prepare("SELECT * FROM ml_tarotcard WHERE slug = '%s';", $mlCardSlug));
 
     if (count($mlCardRow)  > 0) {
          //$mltarot_output .= '<h3>' .$mlCardRow->name .'</h3>';
@@ -451,7 +479,7 @@ function ml_tarot_scripts()
 }
 
 function mlGetCardInterpretationUrl($mlCardRow) {
-    return '/tarotkaart-betekenissen/tarotkaart-betekenis?id=' .$mlCardRow->id;
+    return '/tarotkaart-betekenissen/tarotkaart-betekenis/' .$mlCardRow->slug;
 }
 
 function mlGetCardImageUrl($mlCardDeckRow) {
