@@ -35,6 +35,22 @@
 .tarot-interpretation ul {
     margin-left: 0; 
 }
+.tarot-interpretation #tarotimages {
+    margin-left:  auto;
+    margin-right: auto;
+    width: 540px;
+}
+    .tarot-interpretation #tarotimages div {
+        max-width: 160px;
+        margin-right: 20px;
+        float: left;
+    }
+    .tarot-interpretation #tarotimages #waite {
+        max-width: 140px;
+    }
+    .tarot-interpretation #tarotimages img {
+        max-height: 247px;
+    }
 .spread {
     margin-left:  auto;
     margin-right:  auto;

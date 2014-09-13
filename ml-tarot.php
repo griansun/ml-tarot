@@ -322,6 +322,19 @@ function ml_tarot_cardinterpretation_handler()
 
         $mltarot_output .= $mltarot_divider;
 
+        // set images
+        $mltarot_output .= '<div id="tarotimages">';
+        $mlCardImagesQuery = 'SELECT image, imagesfolder, ml_tarotdeck.name FROM ml_tarotcarddeck INNER JOIN ml_tarotdeck ON (ml_tarotcarddeck.tarotdeck = ml_tarotdeck.id) WHERE tarotcard = 1 AND tarotdeck IN (7, 29, 3) ORDER BY CASE WHEN tarotdeck = 7 THEN 1 WHEN tarotdeck = 29 THEN 2 WHEN tarotdeck = 3 THEN 3 END ASC';
+        $mlCardImagesData = $wpdb->get_results($mlCardImagesQuery);
+        for($i=0; $i<count($mlCardImagesData); $i++) {
+            $mlCardImageUrl = mlGetCardImageUrl($mlCardImagesData[$i]);
+            $mltarot_output .=  '<div id="' .$mlCardImagesData[$i]->imagesfolder .'"><img src="' .$mlCardImageUrl . '" alt="' .$mlCardImagesData[$i]->name .'" /><div>' .$mlCardImagesData[$i]->name .'</div></div>';
+        }
+        $mltarot_output .= '</div>';
+        //end set images
+
+        $mltarot_output .= $mltarot_divider;
+
          $mltarot_output .= '<h4>Kernwoorden</h4>';
          $mltarot_output .= '<ul>';
          $mltarot_output .= '<li><strong>Drang: </strong>' .$mlCardRow->interpretation_drang .'</li>';
@@ -428,7 +441,7 @@ function ml_tarot_scripts()
 {
     wp_enqueue_style( 'style-name', plugins_url( '/css/tarot.css', __FILE__ ) );
     // Register the script like this for a plugin:
-    wp_register_script( 'ml-tarot-script', plugins_url( '/js/tarotreading.js', __FILE__ ), array( 'jquery' )  );
+    wp_enqueue_script( 'ml-tarot-script', plugins_url( '/js/tarotreading.js', __FILE__ ), array( 'jquery' )  );
  
     // For either a plugin or a theme, you can then enqueue the script:
     wp_enqueue_script( 'ml-tarot-script' );
@@ -439,6 +452,12 @@ function ml_tarot_scripts()
 
 function mlGetCardInterpretationUrl($mlCardRow) {
     return '/tarotkaart-betekenissen/tarotkaart-betekenis?id=' .$mlCardRow->id;
+}
+
+function mlGetCardImageUrl($mlCardDeckRow) {
+    $mlDeckImagesFolder = $mlCardDeckRow->imagesfolder;
+    $mlCardDeckImage = $mlCardDeckRow->image;
+    return plugins_url( 'images/decks/' .$mlDeckImagesFolder . '/' .$mlCardDeckImage , __FILE__ );
 }
 
 // Generate Guid 
