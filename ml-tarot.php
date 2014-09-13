@@ -330,6 +330,7 @@ function ml_tarot_cardinterpretation_handler()
     if (count($mlCardRow)  > 0) {
          //$mltarot_output .= '<h3>' .$mlCardRow->name .'</h3>';
          // add title
+         $mlCardId = $mlCardRow->id;
          $mltarot_output .= '<div class="wpb_row  vc_row-fluid  mk-fullwidth-false add-padding-0 attched-false">
         <div class="vc_span12 wpb_column column_container " style="">
         <h1 class="mk-shortcode mk-fancy-title simple-style " id="fancy-title-432" style="font-size: 38px;text-align:center;color: #333333;font-weight:300;margin-top:0px;margin-bottom:20px; "><span style="">
@@ -352,7 +353,7 @@ function ml_tarot_cardinterpretation_handler()
 
         // set images
         $mltarot_output .= '<div id="tarotimages">';
-        $mlCardImagesQuery = 'SELECT image, imagesfolder, ml_tarotdeck.name FROM ml_tarotcarddeck INNER JOIN ml_tarotdeck ON (ml_tarotcarddeck.tarotdeck = ml_tarotdeck.id) WHERE tarotcard = 1 AND tarotdeck IN (7, 29, 3) ORDER BY CASE WHEN tarotdeck = 7 THEN 1 WHEN tarotdeck = 29 THEN 2 WHEN tarotdeck = 3 THEN 3 END ASC';
+        $mlCardImagesQuery = 'SELECT image, imagesfolder, ml_tarotdeck.name FROM ml_tarotcarddeck INNER JOIN ml_tarotdeck ON (ml_tarotcarddeck.tarotdeck = ml_tarotdeck.id) WHERE tarotcard = ' .$mlCardId .' AND tarotdeck IN (7, 29, 3) ORDER BY CASE WHEN tarotdeck = 7 THEN 1 WHEN tarotdeck = 29 THEN 2 WHEN tarotdeck = 3 THEN 3 END ASC';
         $mlCardImagesData = $wpdb->get_results($mlCardImagesQuery);
         for($i=0; $i<count($mlCardImagesData); $i++) {
             $mlCardImageUrl = mlGetCardImageUrl($mlCardImagesData[$i]);
