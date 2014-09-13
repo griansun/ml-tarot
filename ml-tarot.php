@@ -313,7 +313,7 @@ function ml_tarot_cardinterpretation_handler()
         <div class="vc_span2 wpb_column column_container " style="">
         </div>
         <div class="vc_span8 wpb_column column_container " style="">
-        <div class="mk-text-block  " style=" margin-bottom:30px;text-align: center;" id="mk-text-block-223">
+        <div class="mk-text-block  " style="text-align: center;" id="interpretationsummary">
         <p><strong>' .$mlCardRow->interpretationsummary .'</strong></p>
         <div class="clearboth"></div></div>
         </div>
