@@ -54,6 +54,11 @@
     .tarot-interpretation #tarotimages img {
         max-height: 247px;
     }
+
+.tarot-interpretation-overview ul li {
+    list-style: none;
+    margin-left: 0;
+}
 .spread {
     margin-left:  auto;
     margin-right:  auto;
