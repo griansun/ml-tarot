@@ -14,7 +14,7 @@
         padding: 20px;
         margin: 20px 0;
         clear: both;
-        border:  1px solid #00c8d7;
+        border:  1px solid #7ec2aa;
         -webkit-border-radius: 15px;
         -moz-border-radius: 15px;
         border-radius: 15px;
@@ -22,7 +22,7 @@
         cursor: pointer;
     }
     #spreadoverview .spreadpanel.over {
-        background-color: #00c8d7;
+        background-color: #7ec2aa;
         color: #fff;
     }   
         #spreadoverview .spreadpanel.over h4 {
