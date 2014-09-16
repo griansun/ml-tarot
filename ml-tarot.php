@@ -85,7 +85,23 @@ function ml_tarot_spread_overview_handler() {
 }
 
 function ml_tarot_dynamicspread_handler() {
-  $readingstring = $_GET["ml_reading"];
+  $readingstring = '';
+
+  if(isset($_GET['r']))
+  {
+      $readingstring = $_GET['r'];
+  }
+
+  if(isset($_GET['ml_reading']))
+  {
+      $readingstring = $_GET['ml_reading'];
+  }
+  
+  if ($readingstring == '')
+  {
+        return '';
+  }
+
   $totalCards = (int)substr($readingstring, 0, 2);
 
   $demolp_output = '';
