@@ -1,0 +1,2 @@
+rounded square: radius 5px
+verhouding: 3:5

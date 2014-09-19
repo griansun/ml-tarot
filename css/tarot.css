@@ -31,6 +31,10 @@
     #spreadoverview .spreadpanel .spreadtitle {
         font-weight: bold;
     }
+
+#stoomcursus li {
+    padding-bottom: 20px;
+}
     
 .tarot-interpretation ul {
     margin-left: 0; 
