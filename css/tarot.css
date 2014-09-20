@@ -85,6 +85,13 @@
     margin-bottom: 20px;    
 }
 
+/* fix menu selection online legging (body class is set via plugin) */
+.online-legging-page #menu-item-16 a,
+.tarotkaart-betekenissen-page #menu-item-15 a {
+    border-top-color: #4ca8a1;
+    color: #4ca8a1;
+}
+
 /* begin dagkaart */
 #spread6 { height:  250px; width: 100px;}
     #spread6 #position1 { 
