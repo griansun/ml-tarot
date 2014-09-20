@@ -137,11 +137,13 @@ function ml_tarot_dynamicspread_handler() {
       $mlDeckCopyrightDescription = '';
       $mlSwitchDeckId = 0;
       $mlSwitchDeckName = '';
+      $mlSpreadDateTime = '';
 
       $readingguid = substr($tempReadingString, constant("LENGTHTOTALCARDSSTRING"), constant("LENGTHGUIDSTRING"));
       $tarotDeckId = substr($tempReadingString, constant("LENGTHTOTALCARDSSTRING") + constant("LENGTHGUIDSTRING"), constant("LENGTHTAROTDECKIDSTRING"));
       $tarotDeckId = absint($tarotDeckId);
       $tarotSpreadId = substr($tempReadingString, constant("LENGTHTOTALCARDSSTRING") + constant("LENGTHGUIDSTRING") + constant("LENGTHTAROTDECKIDSTRING"), constant("LENGTHTAROTSPREADIDSTRING"));
+      $mlSpreadDateTime = substr($tempReadingString, constant("LENGTHTOTALCARDSSTRING") + constant("LENGTHGUIDSTRING") + constant("LENGTHTAROTDECKIDSTRING") + constant("LENGTHTAROTSPREADIDSTRING"), constant("LENGTHDATETIME"));
 
       if ($tarotDeckId == 29) {
           $mlSwitchDeckId = 7;
@@ -155,13 +157,17 @@ function ml_tarot_dynamicspread_handler() {
       $startIndexCardIds = constant("LENGTHTOTALCARDSSTRING") + constant("LENGTHGUIDSTRING") + constant("LENGTHTAROTDECKIDSTRING") + constant("LENGTHTAROTSPREADIDSTRING");
       $mlCardIdsString = '';
       for ($i = 0; $i < $totalCards; $i++) {
+          $mlCardNumberString = substr($tempReadingString, $startIndexCardIds + $i * constant("LENGTHCARDIDSTRING"), constant("LENGTHCARDIDSTRING"));
           $cardNumber = 0;
-          $cardNumber = (int)substr($tempReadingString, $startIndexCardIds + $i * constant("LENGTHCARDIDSTRING"), constant("LENGTHCARDIDSTRING"));         
+          $cardNumber = (int)$mlCardNumberString;         
 
           $mltarotCardNumbers[$i] = $cardNumber;
-          $mlCardIdsString .= $cardNumber;
+          $mlCardIdsString .= $mlCardNumberString;
       }
 
+      $mlStartIndexDateTime = $startIndexCardIds + strlen($mlCardIdsString);
+      $mlSpreadDateTime = substr($tempReadingString, $mlStartIndexDateTime, constant("LENGTHDATETIME"));
+      
       //$mlCardsString = implode(",", $mltarotCardNumbers);
       //$demolp_output = $demolp_output ."<br />reading guid: " .$readingguid ."<br />";
       //$demolp_output = $demolp_output ."tarotdeck id: " .$tarotDeckId ."<br />";
@@ -254,6 +260,9 @@ function ml_tarot_dynamicspread_handler() {
     }
 
     $demolp_output .= '</div>'; // end rendering container div interpretation
+
+    $mlDateReadingFormatted = DateTime::createFromFormat('dmyHis', $mlSpreadDateTime)->format('d-m-Y h:i:s');
+    $demolp_output .= '<div id="datereading">Datum legging: ' .$mlDateReadingFormatted .'</div>';
 
     if ($mlDeckCopyrightDescription != '') {
         $demolp_output .= constant("mltarot_divider");
@@ -573,7 +582,9 @@ function mlGetReadingUrl($mlSpreadTotalCards, $mlReadingGuid, $mlDeckId, $mlSpre
 }
 
 function mlGetReadingDataString($mlSpreadTotalCards, $mlReadingGuid, $mlDeckId, $mlSpreadid, $mlCardIdList) {
-    return sprintf("%02s", $mlSpreadTotalCards) . $mlReadingGuid .sprintf("%02s", $mlDeckId) .sprintf("%02s", $mlSpreadid) .$mlCardIdList .'260814081918';
+    date_default_timezone_set('Europe/Amsterdam');
+    $mlReadingDate = date("dmyHis");
+    return sprintf("%02s", $mlSpreadTotalCards) . $mlReadingGuid .sprintf("%02s", $mlDeckId) .sprintf("%02s", $mlSpreadid) .$mlCardIdList .$mlReadingDate;
 }
 
 // Generate Guid 
