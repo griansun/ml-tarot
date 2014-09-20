@@ -12,7 +12,7 @@ jQuery(function () {
 
         jQuery.post(ajax_object.ajax_url, data, function (response) {
             var obj = jQuery.parseJSON(response);
-            document.location.href = '/tarot-leggingen/online-legging?ml_reading=' + obj.readingdata;
+            document.location.href = '/tarot-leggingen/online-legging/' + obj.readingdata;
         });
     });
 

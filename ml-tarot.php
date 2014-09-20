@@ -93,9 +93,9 @@ function ml_tarot_dynamicspread_handler() {
       $readingstring = $_GET['r'];
   }
 
-  if(isset($_GET['ml_reading']))
+  if(get_query_var('ml_reading') != '')
   {
-      $readingstring = $_GET['ml_reading'];
+      $readingstring = get_query_var('ml_reading');
   }
   
   if ($readingstring == '')
@@ -106,6 +106,7 @@ function ml_tarot_dynamicspread_handler() {
   $totalCards = (int)substr($readingstring, 0, 2);
 
   $demolp_output = '';
+  //$demolp_output = $demolp_output ."<br />data: " .$readingstring ."<br />";
   //$demolp_output = $demolp_output ."<br />totalcards: " .$totalCards ."<br />";
 
   // calculate length temp
@@ -382,14 +383,18 @@ function ml_tarot_rewrite_rule() {
     global $wp; 
     $wp->add_query_var('tarotcardslug');
     add_rewrite_rule('tarotkaart-betekenissen/tarotkaart-betekenis/([a-z-]+)','index.php?pagename=tarotkaart-betekenissen/tarotkaart-betekenis&tarotcardslug=$matches[1]','top');
+
+    $wp->add_query_var('ml_reading');
+    add_rewrite_rule('tarot-leggingen/online-legging/([A-Za-z0-9]+)','index.php?pagename=tarot-leggingen/online-legging&ml_reading=$matches[1]','top');
     
-    /*global $wp_rewrite;
-    $wp_rewrite->flush_rules();*/
+    global $wp_rewrite;
+    $wp_rewrite->flush_rules();
 }
 
 
 function ml_tarot_query_vars( $query_vars ){
     $query_vars[] = 'tarotcardslug';
+    $query_vars[] = 'ml_reading';
     return $query_vars;
 }
 
