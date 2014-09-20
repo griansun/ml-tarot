@@ -48,7 +48,8 @@ function ml_generatereading_callback() {
         $mlCardIdList .= sprintf("%02s", $mlCardId);
     }
 
-    $readingdata = sprintf("%02s", $mlSpreadTotalCards) . $mlReadingGuid .sprintf("%02s", $mlDeckId) .sprintf("%02s", $mlSpreadid) .$mlCardIdList .'260814081918';
+    //$readingdata = sprintf("%02s", $mlSpreadTotalCards) . $mlReadingGuid .sprintf("%02s", $mlDeckId) .sprintf("%02s", $mlSpreadid) .$mlCardIdList .'260814081918';
+    $readingdata = mlGetReadingDataString($mlSpreadTotalCards, $mlReadingGuid, $mlDeckId, $mlSpreadid, $mlCardIdList);
 
     $pg1 = array(
        'readingdata' => $readingdata
@@ -131,20 +132,33 @@ function ml_tarot_dynamicspread_handler() {
       $mltarotCardNumbers = array();
       $mlSpreadName;
       $mlSpreadPositions = array();
-      $mlDeckImagesFolder = 'tarotofdreams'; //todo: uit database halen
+      $mlDeckImagesFolder = '';
+      $mlDeckCopyrightDescription = '';
+      $mlSwitchDeckId = 0;
+      $mlSwitchDeckName = '';
 
       $readingguid = substr($tempReadingString, constant("LENGTHTOTALCARDSSTRING"), constant("LENGTHGUIDSTRING"));
       $tarotDeckId = substr($tempReadingString, constant("LENGTHTOTALCARDSSTRING") + constant("LENGTHGUIDSTRING"), constant("LENGTHTAROTDECKIDSTRING"));
       $tarotDeckId = absint($tarotDeckId);
       $tarotSpreadId = substr($tempReadingString, constant("LENGTHTOTALCARDSSTRING") + constant("LENGTHGUIDSTRING") + constant("LENGTHTAROTDECKIDSTRING"), constant("LENGTHTAROTSPREADIDSTRING"));
 
-      $startIndexCardIds = constant("LENGTHTOTALCARDSSTRING") + constant("LENGTHGUIDSTRING") + constant("LENGTHTAROTDECKIDSTRING") + constant("LENGTHTAROTSPREADIDSTRING");
+      if ($tarotDeckId == 29) {
+          $mlSwitchDeckId = 7;
+          $mlSwitchDeckName = 'Rider Waite';
+      }
+      else {
+          $mlSwitchDeckId = 29;
+          $mlSwitchDeckName = 'Tarot of Dreams';
+      }
 
+      $startIndexCardIds = constant("LENGTHTOTALCARDSSTRING") + constant("LENGTHGUIDSTRING") + constant("LENGTHTAROTDECKIDSTRING") + constant("LENGTHTAROTSPREADIDSTRING");
+      $mlCardIdsString = '';
       for ($i = 0; $i < $totalCards; $i++) {
           $cardNumber = 0;
           $cardNumber = (int)substr($tempReadingString, $startIndexCardIds + $i * constant("LENGTHCARDIDSTRING"), constant("LENGTHCARDIDSTRING"));         
 
           $mltarotCardNumbers[$i] = $cardNumber;
+          $mlCardIdsString .= $cardNumber;
       }
 
       //$mlCardsString = implode(",", $mltarotCardNumbers);
@@ -157,15 +171,19 @@ function ml_tarot_dynamicspread_handler() {
         $demolp_output = $demolp_output ."  cardnumber: " .$mltarotCardNumbers[$i] ."<br />";
       }*/
 
-      // get spread data
       global $wpdb;
 
+      // get deck data
+      $mlDeckData = $wpdb->get_row($wpdb->prepare("SELECT * FROM ml_tarotdeck WHERE id = '%d';", $tarotDeckId));
+      $mlDeckImagesFolder = $mlDeckData->imagesfolder;
+      $mlDeckCopyrightDescription = $mlDeckData->copyrightdescription;
+
+      // get spread data
       $mlSpread = $wpdb->get_row($wpdb->prepare("SELECT * FROM ml_tarotspread WHERE id = '%d';", $tarotSpreadId));
       $mlSpreadName = $mlSpread->name;
       $mlSpreadSummary = $mlSpread->summary;
       $mlSpreadQuestion = $mlSpread->question;
       $mlSpreadId = $mlSpread->id;
-      //$demolp_output = $demolp_output ."<br />  spreadname: " .$mlSpreadName ."<br />";
 
       $mlSpreadPositionsData = $wpdb->get_results("SELECT * FROM ml_tarotspreadposition WHERE tarotspread = $tarotSpreadId order by positionnumber" );
 
@@ -196,14 +214,12 @@ function ml_tarot_dynamicspread_handler() {
       */
     }
 
+    $mlSwithDeckLink = mlGetReadingUrl(count($mltarotCardNumbers), $readingguid, $mlSwitchDeckId, $mlSpreadId, $mlCardIdsString);
+
     //render container div
     $demolp_output = $demolp_output .'<h3>' .$mlSpreadName .'</h3>';
     $demolp_output = $demolp_output .'<p>' .$mlSpreadSummary .'</p>';
     $demolp_output = $demolp_output .'<p>Geeft antwoord op de vraag <strong>' .$mlSpreadQuestion .'</strong></p>';
-
-    if ($tarotDeckId == 29 and false) {
-        $demolp_output .= '<div>Liever een ander deck? <a href="#" id="switchdeck-7">Switch naar Rider Waite</a></div>';
-    }
 
     $demolp_output = $demolp_output .'<div class="spread" id="spread' .$mlSpreadId .'">';
 
@@ -215,7 +231,12 @@ function ml_tarot_dynamicspread_handler() {
         $demolp_output = $demolp_output ."</div>";
     }
 
-    $demolp_output = $demolp_output .'</div>'; // end rendering container div cardimages
+    $demolp_output .= '</div>'; // end rendering container div cardimages
+
+    // render switch deck
+    $demolp_output .= '<div id="switchdeck">';    
+    $demolp_output .= '<a href="' .$mlSwithDeckLink .'">Liever de afbeeldingen van ' .$mlSwitchDeckName .'?</a>';
+    $demolp_output .= '</div>'; // end rendering container div switchdeck
 
      // render interpretations
     $demolp_output = $demolp_output .'<div class="interpretations">';
@@ -533,6 +554,14 @@ function mlGetCardImageUrl($mlCardDeckRow) {
     $mlDeckImagesFolder = $mlCardDeckRow->imagesfolder;
     $mlCardDeckImage = $mlCardDeckRow->image;
     return plugins_url( 'images/decks/' .$mlDeckImagesFolder . '/' .$mlCardDeckImage , __FILE__ );
+}
+
+function mlGetReadingUrl($mlSpreadTotalCards, $mlReadingGuid, $mlDeckId, $mlSpreadid, $mlCardIdList) {
+    return '/tarot-leggingen/online-legging?ml_reading=' .mlGetReadingDataString($mlSpreadTotalCards, $mlReadingGuid, $mlDeckId, $mlSpreadid, $mlCardIdList);
+}
+
+function mlGetReadingDataString($mlSpreadTotalCards, $mlReadingGuid, $mlDeckId, $mlSpreadid, $mlCardIdList) {
+    return sprintf("%02s", $mlSpreadTotalCards) . $mlReadingGuid .sprintf("%02s", $mlDeckId) .sprintf("%02s", $mlSpreadid) .$mlCardIdList .'260814081918';
 }
 
 // Generate Guid 
