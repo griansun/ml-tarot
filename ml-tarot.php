@@ -252,7 +252,14 @@ function ml_tarot_dynamicspread_handler() {
         $demolp_output = $demolp_output .'</div>'; // end interpretation div
     }
 
-    $demolp_output = $demolp_output .'</div>'; // end rendering container div interpretation
+    $demolp_output .= '</div>'; // end rendering container div interpretation
+
+    if ($mlDeckCopyrightDescription != '') {
+        $demolp_output .= constant("mltarot_divider");
+        $demolp_output .= '<div id="copyright">';
+        $demolp_output .= $mlDeckCopyrightDescription;
+        $demolp_output .= '</div>'; // end rendering container div copyright
+    }
 
     //$demolp_output = $demolp_output ."</ul>";
   }
