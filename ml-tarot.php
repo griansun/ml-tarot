@@ -88,11 +88,12 @@ function ml_tarot_spread_overview_handler() {
 
 function ml_tarot_dynamicspread_handler() {
   $readingstring = '';
+  $mlReadingErrorMessage = 'Er is een fout opgetreden. Ga naar het <a href="/online-tarot-legging/">online leggingen overzicht</a> en vraag een nieuwe legging op.';
 
-  if(isset($_GET['r']))
+  /*if(isset($_GET['r']))
   {
       $readingstring = $_GET['r'];
-  }
+  }*/
 
   if(get_query_var('ml_reading') != '')
   {
@@ -101,7 +102,7 @@ function ml_tarot_dynamicspread_handler() {
   
   if ($readingstring == '')
   {
-        return '';
+        return $mlReadingErrorMessage;
   }
 
   $totalCards = (int)substr($readingstring, 0, 2);
@@ -274,6 +275,9 @@ function ml_tarot_dynamicspread_handler() {
 
     //$demolp_output = $demolp_output ."</ul>";
   }
+  else {
+      $demolp_output = $mlReadingErrorMessage;
+  }
 
     return $demolp_output;
 }
@@ -287,10 +291,10 @@ function ml_tarot_cards_overview_handler() {
     // get cards 'grote arcana'
     $mltarot_output .= '<div class="tarot-interpretation-overview">';
     $mltarot_output .= '<h3>Grote Arcana</h3>';
-    $mltarot_output .= '<div class="wpb_row  vc_row-fluid  mk-fullwidth-false add-padding-0 attched-false">';
+    $mltarot_output .= '<div class="wpb_row vc_row  vc_row-fluid  mk-fullwidth-false  attched-false vc_row-fluid">';
 
     // column 1
-    $mltarot_output .= '<div class="vc_span6 wpb_column column_container">';
+    $mltarot_output .= '<div class="vc_col-sm-6 wpb_column column_container ">';
     $mltarot_output .=  '<ul>';
     $mlCardsGroteArcanaCol1Data = $wpdb->get_results("SELECT * FROM ml_tarotcard WHERE tarotelement = 1 AND number BETWEEN 0 AND 10 ORDER BY sortorder " );
     for($i=0; $i<count($mlCardsGroteArcanaCol1Data); $i++) {
@@ -301,7 +305,7 @@ function ml_tarot_cards_overview_handler() {
     $mltarot_output .=  '</div>'; // end column 1
 
     // column 2
-    $mltarot_output .= '<div class="vc_span6 wpb_column column_container">';
+    $mltarot_output .= '<div class="vc_col-sm-6 wpb_column column_container ">';
     $mltarot_output .=  '<ul>';
     $mlCardsGroteArcanaCol2Data = $wpdb->get_results("SELECT * FROM ml_tarotcard WHERE tarotelement = 1 AND number BETWEEN 11 AND 22 ORDER BY sortorder " );
     for($i=0; $i<count($mlCardsGroteArcanaCol2Data); $i++) {
@@ -321,7 +325,7 @@ function ml_tarot_cards_overview_handler() {
     $mltarot_output .= '<div class="wpb_row  vc_row-fluid  mk-fullwidth-false add-padding-0 attched-false">';
 
     // get cards 'staven'
-    $mltarot_output .= '<div class="vc_span6 wpb_column column_container">';
+    $mltarot_output .= '<div class="vc_col-sm-6 wpb_column column_container ">';
     $mltarot_output .= '<h4>Staven</h4>';
     $mltarot_output .=  '<ul>';
     $mlCardsStavenData = $wpdb->get_results("SELECT * FROM ml_tarotcard WHERE tarotelement = 4 ORDER BY sortorder" );
@@ -333,7 +337,7 @@ function ml_tarot_cards_overview_handler() {
     $mltarot_output .=  '</div>'; // end staven
 
     // get cards 'bekers'
-    $mltarot_output .= '<div class="vc_span6 wpb_column column_container">';
+    $mltarot_output .= '<div class="vc_col-sm-6 wpb_column column_container">';
     $mltarot_output .= '<h4>Bekers</h4>';
     $mltarot_output .=  '<ul>';
     $mlCardsBekersData = $wpdb->get_results("SELECT * FROM ml_tarotcard WHERE tarotelement = 2 ORDER BY sortorder" );
@@ -349,7 +353,7 @@ function ml_tarot_cards_overview_handler() {
     $mltarot_output .= '<div class="wpb_row  vc_row-fluid  mk-fullwidth-false add-padding-0 attched-false">';
 
     // get cards 'zwaarden'
-    $mltarot_output .= '<div class="vc_span6 wpb_column column_container">';
+    $mltarot_output .= '<div class="vc_col-sm-6 wpb_column column_container ">';
     $mltarot_output .= '<h4>Zwaarden</h4>';
     $mltarot_output .=  '<ul>';
 
@@ -362,7 +366,7 @@ function ml_tarot_cards_overview_handler() {
     $mltarot_output .=  '</div>'; // end zwaarden
 
     // get cards 'pentakels'
-    $mltarot_output .= '<div class="vc_span6 wpb_column column_container">';
+    $mltarot_output .= '<div class="vc_col-sm-6 wpb_column column_container">';
     $mltarot_output .= '<h4>Pentakels</h4>';
     $mltarot_output .=  '<ul>';
     $mlCardsPentakelsData = $wpdb->get_results("SELECT * FROM ml_tarotcard WHERE tarotelement = 5 ORDER BY sortorder" );
@@ -477,11 +481,11 @@ function ml_tarot_cardinterpretation_handler()
 
          $mltarot_output .= constant("mltarot_divider");
 
-         $mltarot_output .= '<div class="wpb_row  vc_row-fluid  mk-fullwidth-false add-padding-0 attched-false">';
+         $mltarot_output .= '<div class="wpb_row vc_row  vc_row-fluid  mk-fullwidth-false  attched-false vc_row-fluid">';
 
          // begin algemeen
-         $mltarot_output .= '<div class="vc_span4 wpb_column column_container " style="">';
-         $mltarot_output .= '<div class="   simple_ultimate-style mk-box-icon" style="margin-bottom:30px;" id="box-icon-797">';
+         $mltarot_output .= '<div class="vc_col-sm-4 wpb_column column_container " style="">';
+         $mltarot_output .= '<div class="simple_ultimate-style mk-box-icon" style="margin-bottom:30px;" id="box-icon-797">';
          $mltarot_output .= '<div class="left-side ">';
          $mltarot_output .= '<i class="mk-moon-star-4 small mk-main-ico" style="color:#bcc747;"></i>';
          $mltarot_output .= '<div class="box-detail-wrapper small-size">';
@@ -500,7 +504,7 @@ function ml_tarot_cardinterpretation_handler()
          //end algemeen
          
          // begin beroep
-         $mltarot_output .= '<div class="vc_span4 wpb_column column_container " style="">';
+         $mltarot_output .= '<div class="vc_col-sm-4 wpb_column column_container " style="">';
          $mltarot_output .= '<div class="   simple_ultimate-style mk-box-icon" style="margin-bottom:30px;" id="box-icon-797">';
          $mltarot_output .= '<div class="left-side ">';
          $mltarot_output .= '<i class="mk-moon-user-7 small mk-main-ico" style="color:#bcc747;"></i>';
@@ -520,7 +524,7 @@ function ml_tarot_cardinterpretation_handler()
          //end beroep
 
          // begin relatie
-         $mltarot_output .= '<div class="vc_span4 wpb_column column_container " style="">';
+         $mltarot_output .= '<div class="vc_col-sm-4 wpb_column column_container " style="">';
          $mltarot_output .= '<div class="   simple_ultimate-style mk-box-icon" style="margin-bottom:30px;" id="box-icon-797">';
          $mltarot_output .= '<div class="left-side ">';
          $mltarot_output .= '<i class="mk-moon-heart-6 small mk-main-ico" style="color:#bcc747;"></i>';
