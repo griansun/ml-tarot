@@ -20,6 +20,7 @@ add_action('init', 'ml_tarot_rewrite_rule');
 
 add_filter( 'body_class', 'ml_tarot_body_class_handler' );
 add_filter( 'query_vars', 'ml_tarot_query_vars' );
+add_filter( 'wp_title', 'mlAssignPageTitle', 100, 2);
 
 define("mltarot_divider", '<div class="wpb_row  vc_row-fluid  mk-fullwidth-false add-padding-0 attched-false">
     <div class="vc_span12 wpb_column column_container " style="">
@@ -261,7 +262,7 @@ function ml_tarot_dynamicspread_handler() {
 
     $demolp_output .= '</div>'; // end rendering container div interpretation
 
-    $mlDateReadingFormatted = DateTime::createFromFormat('dmyHis', $mlSpreadDateTime)->format('d-m-Y h:i:s');
+    $mlDateReadingFormatted = DateTime::createFromFormat('dmyHis', $mlSpreadDateTime)->format('d-m-Y H:i:s');
     $demolp_output .= '<div id="datereading">Datum legging: ' .$mlDateReadingFormatted .'</div>';
 
     if ($mlDeckCopyrightDescription != '') {
@@ -394,7 +395,7 @@ function ml_tarot_rewrite_rule() {
     add_rewrite_rule('tarotkaart-betekenissen/tarotkaart-betekenis/([a-z-]+)','index.php?pagename=tarotkaart-betekenissen/tarotkaart-betekenis&tarotcardslug=$matches[1]','top');
 
     $wp->add_query_var('ml_reading');
-    add_rewrite_rule('tarot-leggingen/online-legging/([A-Za-z0-9]+)','index.php?pagename=tarot-leggingen/online-legging&ml_reading=$matches[1]','top');
+    add_rewrite_rule('online-tarot-legging/online-legging/([A-Za-z0-9]+)','index.php?pagename=online-tarot-legging/online-legging&ml_reading=$matches[1]','top');
     
     global $wp_rewrite;
     $wp_rewrite->flush_rules();
@@ -405,6 +406,17 @@ function ml_tarot_query_vars( $query_vars ){
     $query_vars[] = 'tarotcardslug';
     $query_vars[] = 'ml_reading';
     return $query_vars;
+}
+
+function mlAssignPageTitle( $title, $sep ){
+    
+    if( get_query_var("tarotcardslug") != '' ) { 
+        global $wpdb;
+        $mlCardRow = $wpdb->get_row($wpdb->prepare("SELECT * FROM ml_tarotcard WHERE slug = '%s';", get_query_var("tarotcardslug")));
+        return str_replace(' - ', ' ' .$mlCardRow->name .' - ',$title);
+    }
+
+    return $title;
 }
 
 function ml_tarot_cardinterpretation_handler()
@@ -578,7 +590,7 @@ function mlGetCardImageUrl($mlCardDeckRow) {
 }
 
 function mlGetReadingUrl($mlSpreadTotalCards, $mlReadingGuid, $mlDeckId, $mlSpreadid, $mlCardIdList) {
-    return '/tarot-leggingen/online-legging?ml_reading=' .mlGetReadingDataString($mlSpreadTotalCards, $mlReadingGuid, $mlDeckId, $mlSpreadid, $mlCardIdList);
+    return '/online-tarot-legging/online-legging?ml_reading=' .mlGetReadingDataString($mlSpreadTotalCards, $mlReadingGuid, $mlDeckId, $mlSpreadid, $mlCardIdList);
 }
 
 function mlGetReadingDataString($mlSpreadTotalCards, $mlReadingGuid, $mlDeckId, $mlSpreadid, $mlCardIdList) {
